@@ -24,6 +24,21 @@ Task::Task(int taskID, int executionTime) {
 Task::~Task() {}
 
 
+int Task::getTaskID() {
+  return taskID_;
+}
+
+
 int Task::getExecutionTime() {
   return executionTime_;
+}
+
+
+bool Task::getTaskDone() {
+  return isTaskDone_;
+}
+
+
+std::vector<int> Task::getSetupTimes() {
+  return setupTimes_;
 }
