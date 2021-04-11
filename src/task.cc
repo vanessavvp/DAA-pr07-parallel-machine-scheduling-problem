@@ -1,6 +1,6 @@
 /**
  * PROJECT HEADER
- * @input main.cc
+ * @file task.cc
  * @author: Vanessa Valentina Villalba Perez
  * Contact: alu0101265704@ull.edu.es
  * @date: 11/04/2021
@@ -9,11 +9,21 @@
  * Purpose: Parallel Machine Scheduling Problem with Dependent Setup Times
  */
 
-#include "../include/parallelMachine.h"
-#include "../include/machine.h"
 #include "../include/task.h"
 
-int main(int argc, char* argv[]) {
-  std::string fileName = argv[1];
-  ParallelMachine parallelMachine(fileName);
+
+Task::Task() {}
+
+
+Task::Task(int taskID, int executionTime) {
+  taskID_ = taskID;
+  executionTime_ = executionTime;
+}
+
+
+Task::~Task() {}
+
+
+int Task::getExecutionTime() {
+  return executionTime_;
 }
