@@ -25,8 +25,37 @@ std::vector<Machine> ParallelMachine::getSolution() {
 }
 
 
+std::vector<int> ParallelMachine::getExecutionTimes() {
+  return executionTimes_;
+}
+
+
 std::vector<std::vector<Task>> ParallelMachine::getTasksMatrix() {
   return tasksMatrix_;
+}
+
+
+void ParallelMachine::findSmallestTime() {
+
+}
+
+
+std::vector<Machine> ParallelMachine::greedyConstructiveAlgorithm() {
+  std::vector<Machine> resultado;
+  std::cout << "Hola\n";
+
+  // Find the smallests values
+  
+
+  return resultado;
+}
+
+
+void ParallelMachine::executeMachines() {
+  // First greedy algorithm
+  this->greedyConstructiveAlgorithm();
+
+  // Second greedy algorithm
 }
 
 
@@ -60,11 +89,11 @@ void ParallelMachine::readFile(std::string& inputFileName) {
   int count = 0;
   while (executionTime >> data) {
     if (count == 0) {
-      executionTimes_.push_back(0);
+     executionTimes_.push_back(0);
       count ++;
   
     } else {
-      executionTimes_.push_back(std::stoi(data));
+     executionTimes_.push_back(std::stoi(data));
     }
   }
   getline(file, data);
@@ -82,12 +111,14 @@ void ParallelMachine::readFile(std::string& inputFileName) {
   tasksMatrix_.resize(setupMatrix.size());
   for (int i = 0; i < setupMatrix.size(); i++) {
     for (int j = 0; j < setupMatrix.size(); j++) {
-      Task newTask(i, executionTimes_[j]);
-      tasksMatrix_[i].push_back(newTask);
+      //Task newTask(i, executionTimes_[j]);
+      //tasksMatrix_[i].push_back(newTask);
     }
   }
   
-  std::cout << "\nNumber of tasks: " << numberOfTasks;
+  
+  // Verifying correct values
+  /*std::cout << "\nNumber of tasks: " << numberOfTasks;
   std::cout << "\nNumber of machines: " << numberOfMachines;
   std::cout << "\nExecution times: ";
   for (int i = 0; i < executionTimes_.size(); i++) {
@@ -107,7 +138,7 @@ void ParallelMachine::readFile(std::string& inputFileName) {
       std::cout << tasksMatrix_[i][j].getExecutionTime() << " ";
     }
     std::cout << "\n";
-  }
+  }*/
 
   file.close();
 }

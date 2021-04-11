@@ -26,9 +26,12 @@ class ParallelMachine {
   ~ParallelMachine();
 
   std::vector<Machine> getSolution();
+  std::vector<int> getExecutionTimes();
   std::vector<std::vector<Task>> getTasksMatrix();
+  void findSmallestTime();
   void readFile(std::string& inputFileName);
-  //Métodos greedy??
+  void executeMachines();
+  std::vector<Machine> greedyConstructiveAlgorithm();
 
  private:
   std::vector<Machine> solution_;

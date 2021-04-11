@@ -37,8 +37,3 @@ int Task::getExecutionTime() {
 bool Task::getTaskDone() {
   return isTaskDone_;
 }
-
-
-std::vector<int> Task::getSetupTimes() {
-  return setupTimes_;
-}

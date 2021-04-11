@@ -23,14 +23,12 @@ class Task {
 
   int getTaskID();
   int getExecutionTime();
-  bool getTaskDone();
-  std::vector<int> getSetupTimes();
+  bool isExecuted();
 
  private:
   int taskID_;
   int executionTime_;
-  bool isTaskDone_;
-  std::vector<int> setupTimes_;
+  bool executed_;
 };
 
 #endif // !TASK_H
