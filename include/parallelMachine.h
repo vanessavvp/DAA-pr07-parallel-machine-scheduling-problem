@@ -28,6 +28,7 @@ class ParallelMachine {
   std::vector<Machine> getSolution();
   std::vector<int> getExecutionTimes();
   std::vector<std::vector<Task>> getTasksMatrix();
+  void addMachinesToSolution(int numberOfMachines);
   void findSmallestTime();
   void readFile(std::string& inputFileName);
   void executeMachines();

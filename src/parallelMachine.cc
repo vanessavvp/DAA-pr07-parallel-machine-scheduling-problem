@@ -10,10 +10,9 @@
  */
 
 #include "../include/parallelMachine.h"
-#include "../include/task.h"
 
 ParallelMachine::ParallelMachine(std::string& inputFileName) {
-  readFile(inputFileName);
+  //readFile(inputFileName);
 }
 
 
@@ -59,6 +58,14 @@ void ParallelMachine::executeMachines() {
 }
 
 
+void ParallelMachine::addMachinesToSolution(int numberOfMachines) {
+  for (int i = 0; i < numberOfMachines; i++) {
+    Machine newMachine(i);
+    solution_.push_back(newMachine);
+  }
+}
+
+
 void ParallelMachine::readFile(std::string& inputFileName) {
   std::ifstream file(inputFileName);
   std::string data;
@@ -81,7 +88,8 @@ void ParallelMachine::readFile(std::string& inputFileName) {
   std::istringstream machines(data);
   while (machines >> data);
   numberOfMachines = std::stoi(data);
-  getSolution().resize(numberOfMachines);
+  addMachinesToSolution(numberOfMachines);
+  //getSolution().resize(numberOfMachines);
 
   // Execution times
   getline(file, data);
@@ -111,14 +119,13 @@ void ParallelMachine::readFile(std::string& inputFileName) {
   tasksMatrix_.resize(setupMatrix.size());
   for (int i = 0; i < setupMatrix.size(); i++) {
     for (int j = 0; j < setupMatrix.size(); j++) {
-      //Task newTask(i, executionTimes_[j]);
-      //tasksMatrix_[i].push_back(newTask);
+      Task newTask(i, executionTimes_[j]);
+      tasksMatrix_[i].push_back(newTask);
     }
   }
   
-  
   // Verifying correct values
-  /*std::cout << "\nNumber of tasks: " << numberOfTasks;
+  std::cout << "\nNumber of tasks: " << numberOfTasks;
   std::cout << "\nNumber of machines: " << numberOfMachines;
   std::cout << "\nExecution times: ";
   for (int i = 0; i < executionTimes_.size(); i++) {
@@ -138,7 +145,7 @@ void ParallelMachine::readFile(std::string& inputFileName) {
       std::cout << tasksMatrix_[i][j].getExecutionTime() << " ";
     }
     std::cout << "\n";
-  }*/
+  }
 
   file.close();
 }

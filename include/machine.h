@@ -19,7 +19,7 @@
 
 class Machine {
  public:
-  Machine();
+  Machine(int machineID);
   ~Machine();
 
   std::vector<Task> getTasks();
@@ -27,7 +27,8 @@ class Machine {
 
  private:
   std::vector<Task> tasks_;
-  int computingTime_; //Maybe cmabiar el nombre a tct????
+  int tct_;
+  int machineID_;
 };
 
 #endif // !MACHINE_H

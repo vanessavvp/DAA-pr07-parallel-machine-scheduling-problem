@@ -1,8 +1,9 @@
 OBJECTS = main.o parallelMachine.o machine.o task.o
 CFLAGS = -c -O3 -std=c++17 -I../include
+SRC = src/main.cc src/parallelMachine.cc src/machine.cc src/task.cc
 
 exe: $(OBJECTS)
-	g++  $(OBJECTS) -o exe
+	g++ $(SRC) -o exe
 	mv *.o ./obj
 	
 main.o:

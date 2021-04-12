@@ -12,7 +12,9 @@
 #include "../include/machine.h"
 
 
-Machine::Machine() {}
+Machine::Machine(int machineID) {
+  machineID_ = machineID;
+}
 
 Machine::~Machine() {}
 

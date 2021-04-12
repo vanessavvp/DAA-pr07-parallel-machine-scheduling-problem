@@ -34,6 +34,6 @@ int Task::getExecutionTime() {
 }
 
 
-bool Task::getTaskDone() {
-  return isTaskDone_;
+bool Task::isExecuted() {
+  return executed_;
 }
