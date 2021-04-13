@@ -68,7 +68,7 @@ Task ParallelMachine::findTaskWithLessTotalTime(int task) {
   for (int i = 1; i < tasksMatrix_.size(); i++) {
     Task actualTask = tasksMatrix_[task][i];
     if ((actualTask.isExecuted() == false) && (actualTask.getTaskID() != task) &&
-       (actualTask.getSetupTime() != 0) && (actualTask.getTotalTime() != 0) &&
+       (actualTask.getSetupTime() != 0) && (actualTask.getTotalTime() != 0) && // Antes tenia todas diferentes a 0
        (actualTask.getTotalTime() <= minTime)){ // <=
         minTime = actualTask.getTotalTime();
         minTask = actualTask;
@@ -140,15 +140,16 @@ std::vector<Machine> ParallelMachine::greedyAlgorithm() {
 
     int temporalTCT = 0;
     //int temporalTCT = ((actualMachine.getTCT()) + (task.getTotalTime())); LO QUE YO TENIA ANTES SIN FOR
-    for (int j = 0; j < solutionMachines_[machineID].getTasks().size(); j++) {
-      temporalTCT += (actualMachine.getTasks()[j].getTotalTime()) + (actualMachine.getTasks().size() - 1);
+    solutionMachines_[machineID].setTask(tasksMatrix_[lastTask][taskIndex]);
+    this->setTaskExecuted(taskIndex);
+    for (int i = 0; i < solutionMachines_[machineID].getTasks().size(); i++) {
+      temporalTCT += ((solutionMachines_[machineID].getTasks()[i].getTotalTime()) * (solutionMachines_[machineID].getTasks().size() - i));
       solutionMachines_[machineID].setTCT(temporalTCT);
     }
     
     //int temporalTCT = ((actualMachine.getTCT()) + (task.getTotalTime()));
+    //solutionMachines_[machineID].setTask(tasksMatrix_[taskIndex][i]);
     
-    solutionMachines_[machineID].setTask(tasksMatrix_[lastTask][taskIndex]);
-    this->setTaskExecuted(taskIndex);
     //solutionMachines_[machineID].setTCT(temporalTCT);
 
     std::cout << "\n\nNew task: " << tasksMatrix_[lastTask][taskIndex].getTaskID() << 
