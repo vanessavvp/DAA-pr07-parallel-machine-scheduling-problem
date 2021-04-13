@@ -18,16 +18,20 @@
 class Task {
  public:
   Task();
-  Task(int taskID, int executionTime);
+  Task(int taskID, int executionTime, int setupTime);
   ~Task();
 
   int getTaskID();
+  int getSetupTime();
   int getExecutionTime();
+  int getTotalTime();
+  void setExecuted(bool executed);
   bool isExecuted();
 
  private:
   int taskID_;
   int executionTime_;
+  int setupTime_;
   bool executed_;
 };
 

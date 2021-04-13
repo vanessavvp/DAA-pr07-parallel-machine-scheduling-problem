@@ -12,12 +12,16 @@
 #include "../include/task.h"
 
 
-Task::Task() {}
+Task::Task() {
+  executed_ = false;
+}
 
 
-Task::Task(int taskID, int executionTime) {
+Task::Task(int taskID, int executionTime, int setupTime) {
   taskID_ = taskID;
   executionTime_ = executionTime;
+  setupTime_ = setupTime;
+  executed_ = false;
 }
 
 
@@ -33,6 +37,20 @@ int Task::getExecutionTime() {
   return executionTime_;
 }
 
+
+int Task::getSetupTime() {
+  return setupTime_;
+}
+
+
+int Task::getTotalTime() {
+  return (getSetupTime() + getExecutionTime());
+}
+
+
+void Task::setExecuted(bool executed) {
+  executed_ = executed;
+}
 
 bool Task::isExecuted() {
   return executed_;

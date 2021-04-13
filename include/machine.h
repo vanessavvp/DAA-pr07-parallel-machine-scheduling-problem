@@ -19,11 +19,17 @@
 
 class Machine {
  public:
+  Machine();
   Machine(int machineID);
   ~Machine();
 
   std::vector<Task> getTasks();
-  int getComputingTime();
+  void setTask(Task newTask);
+  void setTCT(int newTCT);
+  void setMachineID(int newID);
+  int getTCT();
+  int getMachineID();
+  int getLastTaskAddedID();
 
  private:
   std::vector<Task> tasks_;

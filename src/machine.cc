@@ -12,11 +12,45 @@
 #include "../include/machine.h"
 
 
+Machine::Machine() {
+  tct_ = 0;
+}
+
 Machine::Machine(int machineID) {
   machineID_ = machineID;
+  tct_ = 0;
 }
 
 Machine::~Machine() {}
 
 
+void Machine::setTask(Task newTask) {
+  tasks_.push_back(newTask);
+}
 
+
+void Machine::setTCT(int newTCT) {
+  tct_ = newTCT;
+}
+
+
+void Machine::setMachineID(int newID) {
+  machineID_ = newID;
+}
+
+int Machine::getTCT() {
+  return tct_;
+}
+
+
+int Machine::getMachineID() {
+  return machineID_;
+}
+
+std::vector<Task> Machine::getTasks() {
+  return tasks_;
+}
+
+int Machine::getLastTaskAddedID() {
+  return tasks_[tasks_.size() - 1].getTaskID();
+}
