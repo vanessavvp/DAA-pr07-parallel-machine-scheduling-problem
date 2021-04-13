@@ -21,30 +21,33 @@
 #include "./task.h"
 
 class ParallelMachine {
- public:
-  ParallelMachine(std::string& inputFileName);
-  ~ParallelMachine();
+  public:
+    ParallelMachine(std::string& inputFileName);
+    ~ParallelMachine();
 
-  std::vector<int> getExecutionTimes();
-  std::vector<Machine> getSolutionMachines();
-  std::vector<std::vector<Task>> getTasksMatrix();
-  int getNumberOfTasks();
-  void pushTask(Task newTask);
-  void addMachinesToSolution(int numberOfMachines);
-  Task findTaskWithLessTotalTime(int task);
-  int firstAvailableTask(int task);
-  void readFile(std::string& inputFileName);
-  void executeMachines();
-  Machine getMachineIDWithLeaserTCT();
-  std::vector<Machine> greedyConstructiveAlgorithm();
-  void setTaskExecuted(int taskID);
+    int getNumberOfTasks();
+    int getNumberOfMachines();
+    std::vector<Machine> getSolutionMachines();
+    std::vector<int> getExecutionTimes();
+    std::vector<std::vector<Task>> getTasksMatrix();
 
- private:
-  std::vector<Machine> solutionMachines_;
-  std::vector<int> executionTimes_;
-  std::vector<std::vector<Task>> tasksMatrix_;
-  int numberOfTasks_;
-  int numberOfMachines_;
+    void setTaskExecuted(int taskID);
+    void addMachinesToSolution(int numberOfMachines);
+
+    int findFirstAvailableTask(int task);
+    Task findTaskWithLessTotalTime(int task);
+    Machine findMachineWithLeaserTCT();
+
+    void readFile(std::string& inputFileName);
+    std::vector<Machine> greedyAlgorithm();
+    void executeMachines();
+
+  private:
+    int numberOfTasks_;
+    int numberOfMachines_;
+    std::vector<Machine> solutionMachines_;
+    std::vector<int> executionTimes_;
+    std::vector<std::vector<Task>> tasksMatrix_;
 };
 
 #endif // !PARALLEL_MACHINE_H

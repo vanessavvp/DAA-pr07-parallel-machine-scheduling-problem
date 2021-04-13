@@ -24,11 +24,13 @@ class Machine {
   ~Machine();
 
   std::vector<Task> getTasks();
+  int getTCT();
+  int getMachineID();
+
   void setTask(Task newTask);
   void setTCT(int newTCT);
   void setMachineID(int newID);
-  int getTCT();
-  int getMachineID();
+  
   int getLastTaskAddedID();
 
  private:
