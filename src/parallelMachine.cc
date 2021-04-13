@@ -53,7 +53,6 @@ void ParallelMachine::executeMachines() {
 
   // Second greedy algorithm proposal
   this->greedyAlgorithm();
-
 }
 
 
@@ -68,8 +67,8 @@ Task ParallelMachine::findTaskWithLessTotalTime(int task) {
   for (int i = 1; i < tasksMatrix_.size(); i++) {
     Task actualTask = tasksMatrix_[task][i];
     if ((actualTask.isExecuted() == false) && (actualTask.getTaskID() != task) &&
-       (actualTask.getSetupTime() != 0) && (actualTask.getTotalTime() != 0) && // Antes tenia todas diferentes a 0
-       (actualTask.getTotalTime() <= minTime)){ // <=
+       (actualTask.getSetupTime() != 0) && (actualTask.getTotalTime() != 0) &&
+       (actualTask.getTotalTime() <= minTime)){ 
         minTime = actualTask.getTotalTime();
         minTask = actualTask;
     }
@@ -116,6 +115,7 @@ void ParallelMachine::setTaskExecuted(int taskID) {
 std::vector<Machine> ParallelMachine::greedyAlgorithm() {
   std::vector<Machine> resultado;
   int taskDone = 0;
+  std::cout << "\n\tb) Trace for the greedy implementation";
 
   // First part - Finds the smallests values
   for (int i = 0; i < solutionMachines_.size(); i++) {
@@ -123,12 +123,15 @@ std::vector<Machine> ParallelMachine::greedyAlgorithm() {
     int firstTaskIndex = firstTask.getTaskID();
     solutionMachines_[i].setTask(tasksMatrix_[0][firstTaskIndex]);
     this->setTaskExecuted(firstTaskIndex);
-    //tasksMatrix_[0][firstTaskIndex].setExecuted(true);
     solutionMachines_[i].setTCT(firstTask.getTotalTime());
-    std::cout << " ID: " << tasksMatrix_[0][firstTaskIndex].getTaskID() << 
-      " TT: " <<  tasksMatrix_[0][firstTaskIndex].getTotalTime() << "\n";
     taskDone++;
+
+    std::cout << "\nNew task: " << tasksMatrix_[0][firstTaskIndex].getTaskID() << 
+     " -> TT: " <<  tasksMatrix_[0][firstTaskIndex].getTotalTime() << " -> ";
+    std::cout << "New TCT: " << solutionMachines_[i].getTCT();
   }
+  
+  
 
   // Second part 
   while (taskDone < numberOfTasks_) {
@@ -139,27 +142,23 @@ std::vector<Machine> ParallelMachine::greedyAlgorithm() {
     int taskIndex = task.getTaskID();
 
     int temporalTCT = 0;
-    //int temporalTCT = ((actualMachine.getTCT()) + (task.getTotalTime())); LO QUE YO TENIA ANTES SIN FOR
     solutionMachines_[machineID].setTask(tasksMatrix_[lastTask][taskIndex]);
     this->setTaskExecuted(taskIndex);
     for (int i = 0; i < solutionMachines_[machineID].getTasks().size(); i++) {
       temporalTCT += ((solutionMachines_[machineID].getTasks()[i].getTotalTime()) * (solutionMachines_[machineID].getTasks().size() - i));
       solutionMachines_[machineID].setTCT(temporalTCT);
     }
-    
-    //int temporalTCT = ((actualMachine.getTCT()) + (task.getTotalTime()));
-    //solutionMachines_[machineID].setTask(tasksMatrix_[taskIndex][i]);
-    
-    //solutionMachines_[machineID].setTCT(temporalTCT);
 
-    std::cout << "\n\nNew task: " << tasksMatrix_[lastTask][taskIndex].getTaskID() << 
+    std::cout << "\nNew task: " << tasksMatrix_[lastTask][taskIndex].getTaskID() << 
      "-> TT: " <<  tasksMatrix_[lastTask][taskIndex].getTotalTime() << " + ";
     std::cout << "Actual TCT: " << actualMachine.getTCT();
-    std::cout << " New TCT: " << solutionMachines_[machineID].getTCT();
+    std::cout << " -> New TCT: " << solutionMachines_[machineID].getTCT();
    
     taskDone++;
   }
 
+  std::cout << std::endl;
+  int solution = 0;
   for (int i = 0; i < solutionMachines_.size(); i++) {
     std::cout << "\n[ Machine: " << (solutionMachines_[i].getMachineID() + 1) << " ]" ;
     int tasksSizes = solutionMachines_[i].getTasks().size();
@@ -167,15 +166,16 @@ std::vector<Machine> ParallelMachine::greedyAlgorithm() {
       std::cout << " " << solutionMachines_[i].getTasks()[j].getTaskID();
     }
     std::cout << " with TCT: " << solutionMachines_[i].getTCT();
+    solution += solutionMachines_[i].getTCT();
   }
-  std::cout << "\n";
+  std::cout << "\n\nZ -> Total completion time using the greedy algorithm (b): " << solution << std::endl;
   
   return resultado;
 }
 
 
 /** 
- * Finds the 
+ * Finds and returns the machine with the leaser TCT value 
  **/
 Machine ParallelMachine::findMachineWithLeaserTCT() {
   int minTCT = solutionMachines_[0].getTCT();
@@ -205,6 +205,9 @@ void ParallelMachine::addMachinesToSolution(int numberOfMachines) {
 }
 
 
+/**
+ * Reads the input file and stores everything into its data structures
+ **/
 void ParallelMachine::readFile(std::string& inputFileName) {
   std::ifstream file(inputFileName);
   std::string data;
