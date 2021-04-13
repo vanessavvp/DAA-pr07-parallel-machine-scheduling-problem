@@ -97,10 +97,10 @@ std::vector<Machine> ParallelMachine::greedyConstructiveAlgorithm() {
     int lastTask = actualMachine.getLastTaskAddedID();  // Revisar fila  
 
     for (int i = 0; i < tasksMatrix_.size(); i++) {
-      Task task = findTaskWithLessTotalTime(i);
+      Task task = findTaskWithLessTotalTime(lastTask);
       int taskIndex = task.getTaskID();
       int temporalTCT = ((actualMachine.getTCT()) + (task.getTotalTime()));
-      solutionMachines_[actualMachine.getMachineID()].setTask(tasksMatrix_[actualMachine.getLastTaskAddedID()][taskIndex]);
+      solutionMachines_[actualMachine.getMachineID()].setTask(tasksMatrix_[lastTask][taskIndex]);
       this->setTaskExecuted(taskIndex);
       //tasksMatrix_[actualMachine.getLastTaskAddedID()][taskIndex].setExecuted(true);
       solutionMachines_[actualMachine.getMachineID()].setTCT(temporalTCT);
