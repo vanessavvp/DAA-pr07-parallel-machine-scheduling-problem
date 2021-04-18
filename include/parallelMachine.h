@@ -39,6 +39,7 @@ class ParallelMachine {
     Machine findMachineWithLeaserTCT();
 
     void readFile(std::string& inputFileName);
+    std::vector<Machine> originalGreedyAlgorithm();
     std::vector<Machine> greedyAlgorithm();
     void executeMachines();
 

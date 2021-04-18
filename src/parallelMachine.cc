@@ -50,6 +50,7 @@ int ParallelMachine::getNumberOfTasks() {
  **/
 void ParallelMachine::executeMachines() {
   // First greedy algorithm
+  this->originalGreedyAlgorithm();
 
   // Second greedy algorithm proposal
   this->greedyAlgorithm();
@@ -107,15 +108,66 @@ void ParallelMachine::setTaskExecuted(int taskID) {
 }
 
 
-/** Section B - Proposal of the greedy algorithm. Additions every tasks with
+/**
+ * Section A
+ **/
+std::vector<Machine> ParallelMachine::originalGreedyAlgorithm() {
+  std::cout << "\n\ta) Trace for the greedy implementation";
+  std::vector<Machine> resultado;
+  int taskDone = 0;
+
+  // First part - Finds the smallests values
+  for (int i = 0; i < solutionMachines_.size(); i++) {
+    Task firstTask = findTaskWithLessTotalTime(0);
+    int firstTaskIndex = firstTask.getTaskID();
+    solutionMachines_[i].setTask(tasksMatrix_[0][firstTaskIndex]);
+    this->setTaskExecuted(firstTaskIndex);
+    solutionMachines_[i].setTCT(firstTask.getTotalTime());
+    taskDone++;
+
+    std::cout << "\nNew task: " << tasksMatrix_[0][firstTaskIndex].getTaskID() << 
+     " -> TT: " <<  tasksMatrix_[0][firstTaskIndex].getTotalTime() << " -> ";
+    std::cout << "New TCT: " << solutionMachines_[i].getTCT();
+  }
+
+  // Second part 
+  while (taskDone < numberOfTasks_) {
+    int lessIncrement = INT16_MAX;
+    int bestTaskPosition = 0;
+    int possibleTCT = 0;
+    std::vector<Task> tasksCopy;
+    Machine bestMachine();
+    Task bestTask();
+    
+    for (int i = 0; i < solutionMachines_.size(); i++) {
+      tasksCopy = solutionMachines_[i].getTasks();
+      for (int j = 0; j < tasksCopy.size(); j++){
+        for (int k = 0; k < tasksMatrix_[tasksCopy[j].getTaskID()].size(); k++) {
+          if (tasksMatrix_[tasksCopy[i].getTaskID()][k].isExecuted() == false) {
+            //TODO
+            taskDone++;
+
+          }
+        }
+      }
+    }
+    // taskDone++;
+  }
+
+  return resultado;
+}
+
+
+/** 
+ * Section B - Proposal of the greedy algorithm. Additions every tasks with
  *              the best completion time at the end of the selected machine 
  *              until restoring all the tasks needed on each existing machine
  *              and, finally, calculates the TCT.
  **/
 std::vector<Machine> ParallelMachine::greedyAlgorithm() {
+  std::cout << "\n\n\tb) Trace for the greedy implementation";
   std::vector<Machine> resultado;
   int taskDone = 0;
-  std::cout << "\n\tb) Trace for the greedy implementation";
 
   // First part - Finds the smallests values
   for (int i = 0; i < solutionMachines_.size(); i++) {
@@ -131,8 +183,6 @@ std::vector<Machine> ParallelMachine::greedyAlgorithm() {
     std::cout << "New TCT: " << solutionMachines_[i].getTCT();
   }
   
-  
-
   // Second part 
   while (taskDone < numberOfTasks_) {
     Machine actualMachine = findMachineWithLeaserTCT();
