@@ -28,8 +28,10 @@ class Machine {
   int getMachineID();
 
   void setTask(Task newTask);
+  void setTaskPosition(Task newTask, int position);
   void setTCT(int newTCT);
   void setMachineID(int newID);
+  void calculateTCT();
   
   int getLastTaskAddedID();
 

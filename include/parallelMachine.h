@@ -39,6 +39,8 @@ class ParallelMachine {
     Machine findMachineWithLeaserTCT();
 
     void readFile(std::string& inputFileName);
+    int evaluateObjectiveFunction(Task task, int machine, int position);
+    void updateObjectiveFunction();
     std::vector<Machine> originalGreedyAlgorithm();
     std::vector<Machine> greedyAlgorithm();
     void executeMachines();

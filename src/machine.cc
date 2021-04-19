@@ -29,6 +29,12 @@ void Machine::setTask(Task newTask) {
 }
 
 
+void Machine::setTaskPosition(Task newTask, int position) {
+  std::vector<Task>::iterator it = tasks_.begin() + position;
+  tasks_.insert(it, newTask);
+}
+
+
 void Machine::setTCT(int newTCT) {
   tct_ = newTCT;
 }
@@ -53,4 +59,11 @@ std::vector<Task> Machine::getTasks() {
 
 int Machine::getLastTaskAddedID() {
   return tasks_[tasks_.size() - 1].getTaskID();
+}
+
+void Machine::calculateTCT() {
+  tct_ = 0;
+  for (int i = 0; i < tasks_.size(); i++) {
+    tct_ += (tasks_[i].getTotalTime() * (tasks_.size() - i));
+  }
 }

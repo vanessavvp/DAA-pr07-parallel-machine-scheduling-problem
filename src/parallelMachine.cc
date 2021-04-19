@@ -53,7 +53,7 @@ void ParallelMachine::executeMachines() {
   this->originalGreedyAlgorithm();
 
   // Second greedy algorithm proposal
-  this->greedyAlgorithm();
+  //this->greedyAlgorithm();
 }
 
 
@@ -99,12 +99,24 @@ int ParallelMachine::findFirstAvailableTask(int task) {
  **/
 void ParallelMachine::setTaskExecuted(int taskID) {
   for (int i = 0; i < tasksMatrix_.size(); i++) {
-    for (int j = 0; j < tasksMatrix_.size(); j++) {
-      if (taskID == j) {
-        tasksMatrix_[i][j].setExecuted(true);
-      }
-    }
+    tasksMatrix_[i][taskID].setExecuted(true);
   }
+}
+
+/**
+ * Calculates the objetive function when adding a new task in a specific position
+ * but without changing the original parcial tct
+ **/
+int ParallelMachine::evaluateObjectiveFunction(Task task, int machine, int position) {
+  std::vector<Task> tasks = solutionMachines_[machine].getTasks();
+  std::vector<Task>::iterator it = tasks.begin() + position + 1;
+  tasks.insert(it, task);
+
+  int tct = 0;
+  for (int i = 0; i < tasks.size(); i++) {
+    tct += (tasks[i].getTotalTime() * (tasks.size() - i));
+  }
+  return tct;
 }
 
 
@@ -130,29 +142,58 @@ std::vector<Machine> ParallelMachine::originalGreedyAlgorithm() {
     std::cout << "New TCT: " << solutionMachines_[i].getTCT();
   }
 
+  this->setTaskExecuted(0);
   // Second part 
   while (taskDone < numberOfTasks_) {
     int lessIncrement = INT16_MAX;
+    int increment = INT16_MAX;
     int bestTaskPosition = 0;
     int possibleTCT = 0;
+    int bestMachine = 0;
     std::vector<Task> tasksCopy;
-    Machine bestMachine();
-    Task bestTask();
-    
-    for (int i = 0; i < solutionMachines_.size(); i++) {
-      tasksCopy = solutionMachines_[i].getTasks();
-      for (int j = 0; j < tasksCopy.size(); j++){
-        for (int k = 0; k < tasksMatrix_[tasksCopy[j].getTaskID()].size(); k++) {
-          if (tasksMatrix_[tasksCopy[i].getTaskID()][k].isExecuted() == false) {
-            //TODO
-            taskDone++;
+    Task bestTask;
 
+    for (int i = 0; i < solutionMachines_.size(); i++) {
+      //tasksCopy = solutionMachines_[i].getTasks();
+      for (int j = 0; j < solutionMachines_[i].getTasks().size(); j++){
+        //for (Task task : tasksMatrix_[tasksCopy[j].getTaskID()]) {
+        int actualTask = solutionMachines_[i].getTasks()[j].getTaskID();
+        for (int k = 1; k < numberOfTasks_; k++) {
+          Task task = tasksMatrix_[actualTask][k];
+          if (task.isExecuted() == false) {
+            possibleTCT = evaluateObjectiveFunction(task, i, j);
+            increment = possibleTCT - solutionMachines_[i].getTCT();
+            std::cout << "\nMaq: " << solutionMachines_[i].getMachineID() << " Tarea: " << task.getTaskID() << " Posible TCT: " << possibleTCT << " Incremento actual: " << increment << " Menor incremento: " << lessIncrement;
+            if (increment < lessIncrement) {
+              bestMachine = solutionMachines_[i].getMachineID();
+              lessIncrement = increment;
+              bestTaskPosition = j + 1;
+              bestTask = task;
+            }
           }
         }
       }
     }
-    // taskDone++;
+    std::cout << "\nTAREA: " << bestTask.getTaskID() << " En máquina: " << bestMachine + 1;
+
+    setTaskExecuted(bestTask.getTaskID());
+    solutionMachines_[bestMachine].setTaskPosition(bestTask, bestTaskPosition);
+    solutionMachines_[bestMachine].calculateTCT();
+    taskDone++;
   }
+
+  std::cout << std::endl;
+  int solution = 0;
+  for (int i = 0; i < solutionMachines_.size(); i++) {
+    std::cout << "\n[ Machine: " << (solutionMachines_[i].getMachineID() + 1) << " ]" ;
+    int tasksSizes = solutionMachines_[i].getTasks().size();
+    for (int j = 0; j < tasksSizes; j++) {
+      std::cout << " " << solutionMachines_[i].getTasks()[j].getTaskID();
+    }
+    std::cout << " with TCT: " << solutionMachines_[i].getTCT();
+    solution += solutionMachines_[i].getTCT();
+  }
+  std::cout << "\n\nZ -> Total completion time using the greedy algorithm (a): " << solution << std::endl;
 
   return resultado;
 }
