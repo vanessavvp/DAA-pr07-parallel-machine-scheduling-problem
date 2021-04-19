@@ -154,16 +154,13 @@ std::vector<Machine> ParallelMachine::originalGreedyAlgorithm() {
     Task bestTask;
 
     for (int i = 0; i < solutionMachines_.size(); i++) {
-      //tasksCopy = solutionMachines_[i].getTasks();
       for (int j = 0; j < solutionMachines_[i].getTasks().size(); j++){
-        //for (Task task : tasksMatrix_[tasksCopy[j].getTaskID()]) {
         int actualTask = solutionMachines_[i].getTasks()[j].getTaskID();
         for (int k = 1; k < numberOfTasks_; k++) {
           Task task = tasksMatrix_[actualTask][k];
           if (task.isExecuted() == false) {
             possibleTCT = evaluateObjectiveFunction(task, i, j);
             increment = possibleTCT - solutionMachines_[i].getTCT();
-            std::cout << "\nMaq: " << solutionMachines_[i].getMachineID() << " Tarea: " << task.getTaskID() << " Posible TCT: " << possibleTCT << " Incremento actual: " << increment << " Menor incremento: " << lessIncrement;
             if (increment < lessIncrement) {
               bestMachine = solutionMachines_[i].getMachineID();
               lessIncrement = increment;
@@ -174,8 +171,6 @@ std::vector<Machine> ParallelMachine::originalGreedyAlgorithm() {
         }
       }
     }
-    std::cout << "\nTAREA: " << bestTask.getTaskID() << " En máquina: " << bestMachine + 1;
-
     setTaskExecuted(bestTask.getTaskID());
     solutionMachines_[bestMachine].setTaskPosition(bestTask, bestTaskPosition);
     solutionMachines_[bestMachine].calculateTCT();
@@ -240,10 +235,11 @@ std::vector<Machine> ParallelMachine::greedyAlgorithm() {
       solutionMachines_[machineID].setTCT(temporalTCT);
     }
 
-    std::cout << "\nNew task: " << tasksMatrix_[lastTask][taskIndex].getTaskID() << 
+    // Trace
+    /*std::cout << "\nNew task: " << tasksMatrix_[lastTask][taskIndex].getTaskID() << 
      "-> TT: " <<  tasksMatrix_[lastTask][taskIndex].getTotalTime() << " + ";
     std::cout << "Actual TCT: " << actualMachine.getTCT();
-    std::cout << " -> New TCT: " << solutionMachines_[machineID].getTCT();
+    std::cout << " -> New TCT: " << solutionMachines_[machineID].getTCT();*/
    
     taskDone++;
   }

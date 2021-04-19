@@ -16,6 +16,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <algorithm>
 
 #include "./machine.h"
 #include "./task.h"
@@ -43,6 +44,7 @@ class ParallelMachine {
     void updateObjectiveFunction();
     std::vector<Machine> originalGreedyAlgorithm();
     std::vector<Machine> greedyAlgorithm();
+    std::vector<Machine> GRASP();
     void executeMachines();
 
   private:
