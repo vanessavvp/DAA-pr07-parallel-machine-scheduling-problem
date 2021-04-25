@@ -17,8 +17,6 @@
 
 #include "./task.h"
 
-#pragma once
-
 class Machine {
  public:
   Machine();

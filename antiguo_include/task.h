@@ -15,8 +15,6 @@
 #include <iostream>
 #include <vector>
 
-#pragma once
-
 class Task {
  public:
   Task();

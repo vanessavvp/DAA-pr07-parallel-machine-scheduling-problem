@@ -9,15 +9,28 @@
  * Purpose: Parallel Machine Scheduling Problem with Dependent Setup Times
  */
 
-#include "../include/parallelMachine.h"
-#include "../include/machine.h"
-#include "../include/task.h"
+#include "../include/problem.h"
+#include "../include/firstGreedy.h"
+#include "../include/secondGreedy.h"
+#include "../include/GRASP.h"
+#include <chrono>
 
 int main(int argc, char* argv[]) {
   std::string fileName = argv[1];
-  ParallelMachine machineA(fileName);
-  machineA.originalGreedyAlgorithm();
+  Problem machineA(fileName);
+  Problem machineB(fileName);
+  Problem machineC(fileName);
 
-  ParallelMachine machineB(fileName);
-  machineB.greedyAlgorithm();
+  FirstGreedy* firstGreedy = new FirstGreedy;
+  SecondGreedy* secondGreedy = new SecondGreedy;
+  GRASP* grasp = new GRASP;
+  grasp->setK(2);
+
+  machineA.setAlgorithm(firstGreedy);
+  machineA.execute();
+  machineB.setAlgorithm(secondGreedy);
+  machineB.execute();
+  machineC.setAlgorithm(grasp);
+  srand(time(NULL));
+  machineC.execute();
 }

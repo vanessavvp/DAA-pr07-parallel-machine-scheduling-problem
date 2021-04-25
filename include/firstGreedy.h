@@ -1,6 +1,6 @@
 /**
  * PROJECT HEADER
- * @file algorithm.h
+ * @file firstGreedy.h
  * @author: Vanessa Valentina Villalba Perez
  * Contact: alu0101265704@ull.edu.es
  * @date: 24/04/2021
@@ -9,20 +9,23 @@
  * Purpose: Parallel Machine Scheduling Problem with Dependent Setup Times
  */
 
-#ifndef ALGORITHM_H
-#define ALGORITHM_H
+#ifndef FIRST_GREEDY_H
+#define FIRST_GREEDY_H
 
 #include <iostream>
 
-#include "./solution.h"
+#include "./algorithm.h"
+#include "./problem.h"
 
 #pragma once
 
-class Problem;
-class Algorithm {
-  public:
-    virtual ~Algorithm() = default;
-    virtual Solution execute(Problem& problem) = 0;
+class FirstGreedy : public Algorithm {
+  public: 
+    FirstGreedy() {}
+    ~FirstGreedy() {}
+    Solution execute(Problem& problem);
+
 };
 
-#endif // !ALGORITHM_H
+#endif // !FIRST_GREEDY_H
+

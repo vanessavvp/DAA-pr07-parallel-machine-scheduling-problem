@@ -1,6 +1,6 @@
 /**
  * PROJECT HEADER
- * @file parallelMachine.cc
+ * @file problem.cc
  * @author: Vanessa Valentina Villalba Perez
  * Contact: alu0101265704@ull.edu.es
  * @date: 11/04/2021
@@ -9,46 +9,57 @@
  * Purpose: Parallel Machine Scheduling Problem with Dependent Setup Times
  */
 
-#include "../include/parallelMachine.h"
+#include "../include/problem.h"
 
-ParallelMachine::ParallelMachine(std::string& inputFileName) {
+Problem::Problem(std::string& inputFileName) {
   readFile(inputFileName);
 }
 
 
-ParallelMachine::~ParallelMachine() {}
+Problem::~Problem() {}
 
 
-std::vector<Machine> ParallelMachine::getSolutionMachines() {
+std::vector<Machine> Problem::getSolutionMachines() {
   return solutionMachines_;
 }
 
 
-int ParallelMachine::getNumberOfMachines() {
+int Problem::getNumberOfMachines() {
   return numberOfMachines_;
 }
 
 
 
-std::vector<int> ParallelMachine::getExecutionTimes() {
+std::vector<int> Problem::getExecutionTimes() {
   return executionTimes_;
 }
 
 
-std::vector<std::vector<Task>> ParallelMachine::getTasksMatrix() {
+std::vector<std::vector<Task>> Problem::getTasksMatrix() {
   return tasksMatrix_;
 }
 
 
-int ParallelMachine::getNumberOfTasks() {
+int Problem::getNumberOfTasks() {
   return numberOfTasks_;
 }
+
+
+Algorithm* Problem::getAlgorithm() {
+  return algorithm_;
+}
+
+
+void Problem::setAlgorithm(Algorithm* algorithm) {
+  algorithm_ = algorithm;
+}
+
 
 
 /**
  * Executes machines with the different Greedy algorithm implemented
  **/
-void ParallelMachine::executeMachines() {
+void Problem::executeMachines() {
   // First greedy algorithm
   this->originalGreedyAlgorithm();
 
@@ -61,7 +72,7 @@ void ParallelMachine::executeMachines() {
  * Finds the task with less Total Time (Setup time + Execution time) that has not
  * been executed yet and returns it.
  **/
-Task ParallelMachine::findTaskWithLessTotalTime(int task) {
+Task Problem::findTaskWithLessTotalTime(int task) {
   int minTime = findFirstAvailableTask(task);
   Task minTask;
 
@@ -82,7 +93,7 @@ Task ParallelMachine::findTaskWithLessTotalTime(int task) {
  * Finds the first task that is not been executed yet and returns it, for it to be 
  * added as the first task of a machine.
  **/
-int ParallelMachine::findFirstAvailableTask(int task) {
+int Problem::findFirstAvailableTask(int task) {
   for (int i = 1; i < tasksMatrix_.size(); i++) {
     Task actualTask = tasksMatrix_[task][i];
     if (actualTask.isExecuted() == false) {
@@ -97,7 +108,7 @@ int ParallelMachine::findFirstAvailableTask(int task) {
  * Sets an entire column in the task matrix from a given task ID that, the task 
  * has been executed.
  **/
-void ParallelMachine::setTaskExecuted(int taskID) {
+void Problem::setTaskExecuted(int taskID) {
   for (int i = 0; i < tasksMatrix_.size(); i++) {
     tasksMatrix_[i][taskID].setExecuted(true);
   }
@@ -107,7 +118,7 @@ void ParallelMachine::setTaskExecuted(int taskID) {
  * Calculates the objetive function when adding a new task in a specific position
  * but without changing the original parcial tct
  **/
-int ParallelMachine::evaluateObjectiveFunction(Task task, int machine, int position) {
+int Problem::evaluateObjectiveFunction(Task task, int machine, int position) {
   std::vector<Task> tasks = solutionMachines_[machine].getTasks();
   std::vector<Task>::iterator it = tasks.begin() + position + 1;
   tasks.insert(it, task);
@@ -123,7 +134,7 @@ int ParallelMachine::evaluateObjectiveFunction(Task task, int machine, int posit
 /**
  * Section A
  **/
-std::vector<Machine> ParallelMachine::originalGreedyAlgorithm() {
+std::vector<Machine> Problem::originalGreedyAlgorithm() {
   std::cout << "\n\ta) Trace for the greedy implementation";
   std::vector<Machine> resultado;
   int taskDone = 0;
@@ -200,7 +211,7 @@ std::vector<Machine> ParallelMachine::originalGreedyAlgorithm() {
  *              until restoring all the tasks needed on each existing machine
  *              and, finally, calculates the TCT.
  **/
-std::vector<Machine> ParallelMachine::greedyAlgorithm() {
+std::vector<Machine> Problem::greedyAlgorithm() {
   std::cout << "\n\n\tb) Trace for the greedy implementation";
   std::vector<Machine> resultado;
   int taskDone = 0;
@@ -264,7 +275,7 @@ std::vector<Machine> ParallelMachine::greedyAlgorithm() {
 /** 
  * Finds and returns the machine with the leaser TCT value 
  **/
-Machine ParallelMachine::findMachineWithLeaserTCT() {
+Machine Problem::findMachineWithLeaserTCT() {
   int minTCT = solutionMachines_[0].getTCT();
   Machine leaserTCTMachine;
 
@@ -284,7 +295,7 @@ Machine ParallelMachine::findMachineWithLeaserTCT() {
  * it to the solution, which contains the different machines with its own 
  * tasks.
  **/
-void ParallelMachine::addMachinesToSolution(int numberOfMachines) {
+void Problem::addMachinesToSolution(int numberOfMachines) {
   for (int i = 0; i < numberOfMachines; i++) {
     Machine newMachine(i);
     solutionMachines_.push_back(newMachine);
@@ -295,7 +306,7 @@ void ParallelMachine::addMachinesToSolution(int numberOfMachines) {
 /**
  * Reads the input file and stores everything into its data structures
  **/
-void ParallelMachine::readFile(std::string& inputFileName) {
+void Problem::readFile(std::string& inputFileName) {
   std::ifstream file(inputFileName);
   std::string data;
 

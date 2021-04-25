@@ -1,6 +1,6 @@
 /**
  * PROJECT HEADER
- * @file algorithm.h
+ * @file solution.h
  * @author: Vanessa Valentina Villalba Perez
  * Contact: alu0101265704@ull.edu.es
  * @date: 24/04/2021
@@ -9,20 +9,18 @@
  * Purpose: Parallel Machine Scheduling Problem with Dependent Setup Times
  */
 
-#ifndef ALGORITHM_H
-#define ALGORITHM_H
+#ifndef SOLUTION_H
+#define SOLUTION_H
 
 #include <iostream>
 
-#include "./solution.h"
-
-#pragma once
-
-class Problem;
-class Algorithm {
+class Solution {
   public:
-    virtual ~Algorithm() = default;
-    virtual Solution execute(Problem& problem) = 0;
+    Solution();
+    ~Solution();
+    
+  private:
+
 };
 
-#endif // !ALGORITHM_H
+#endif // !SOLUTION_H

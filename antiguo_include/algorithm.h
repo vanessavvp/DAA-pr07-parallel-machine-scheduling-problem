@@ -15,14 +15,15 @@
 #include <iostream>
 
 #include "./solution.h"
-
-#pragma once
+#include "./problem.h"
 
 class Problem;
 class Algorithm {
   public:
     virtual ~Algorithm() = default;
-    virtual Solution execute(Problem& problem) = 0;
+    virtual Solution execute(Problem problem) = 0;
+    
+  private:
 };
 
 #endif // !ALGORITHM_H
