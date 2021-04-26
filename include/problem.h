@@ -16,6 +16,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <iomanip>
 
 #include "./machine.h"
 #include "./solution.h"
@@ -45,6 +46,8 @@ class Problem {
     int findFirstAvailableTask(int task);
     Task findTaskWithLessTotalTime(int task);
 
+    void printSetupMatrix();
+    void printGeneratedSolution();
     void readFile(std::string& inputFileName);
 
     void updateObjectiveFunction();

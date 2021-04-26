@@ -89,3 +89,24 @@ bool Machine::operator==(const Machine& machine) const {
   }
   return false;
 }
+
+
+void Machine::insertTask(int taskIndex, Task task) {
+  std::vector<Task>::iterator it = tasks_.begin() + taskIndex + 1;
+  tasks_.insert(it, task);
+  calculateTCT();
+}
+
+
+void Machine::deleteTask(int taskIndex) {
+  std::vector<Task>::iterator it = tasks_.begin() + taskIndex;
+  tasks_.erase(it);
+  calculateTCT();
+}
+
+
+void Machine::printTasks() {
+  for (int i = 0; i < tasks_.size(); i++) {
+    std::cout << tasks_[i].getTaskID() << " ";
+  }
+}

@@ -58,6 +58,22 @@ void Problem::execute() {
 }
 
 
+void Problem::printSetupMatrix() {
+  for (int i = 0; i < tasksMatrix_.size(); i++) {
+    for (int j = 0; j < tasksMatrix_[i].size(); j++) {
+      std::cout << std::setw(4) << tasksMatrix_[i][j].getSetupTime() << " ";
+    }
+    std::cout << "\n";
+  }
+}
+
+
+void Problem::printGeneratedSolution() {
+  solution_.printSolution();
+}
+
+
+
 /**
  * Finds the task with less Total Time (Setup time + Execution time) that has not
  * been executed yet and returns it.

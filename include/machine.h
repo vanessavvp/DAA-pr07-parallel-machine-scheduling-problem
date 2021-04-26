@@ -25,18 +25,21 @@ class Machine {
   Machine(int machineID);
   ~Machine();
 
-  std::vector<Task> getTasks() const;
   int getTCT();
-  int getMachineSize();
   int getMachineID();
-
-  void setTask(Task newTask);
-  void setTaskPosition(Task newTask, int position);
-  void setTCT(int newTCT);
-  void setMachineID(int newID);
-  void calculateTCT();
-  
+  int getMachineSize();
   int getLastTaskAddedID();
+  std::vector<Task> getTasks() const;
+
+  void setTCT(int newTCT);
+  void setTask(Task newTask);
+  void printTasks();
+  void calculateTCT();
+  void setMachineID(int newID);
+  void setTaskPosition(Task newTask, int position);
+  
+  void insertTask(int taskIndex, Task task);
+  void deleteTask(int taskIndex);
   Task& operator[](int taskIndex);
   bool operator==(const Machine& machine) const;
 

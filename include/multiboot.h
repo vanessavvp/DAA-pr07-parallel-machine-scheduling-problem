@@ -26,12 +26,15 @@ class Multiboot : public Algorithm {
     Multiboot(){};
     Multiboot(LocalSearch* localSearch, bool isAnxious);
     ~Multiboot(){};
-    Solution execute(Problem& problem);
+    Solution execute(Problem problem);
 
     void setK(int k);
+    int getK();
     void setAnxiety(bool isAnxious);
     void setDelimiter(int delimiter);
+    void introduceDelimiter();
     void setStopCriteria(bool stopCriteria);
+    void introduceStopCriteria();
     void setLocalSearch(LocalSearch* localSearch);
 
   private:

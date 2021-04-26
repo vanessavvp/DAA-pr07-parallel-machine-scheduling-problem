@@ -19,23 +19,14 @@ std::vector<Solution> IntraReinsertion::generateNeighbours(Solution previousSolu
       for (int k = 0; k < previousSolution[i].getMachineSize(); k++) {
         if (i != k) {
           actualSolution = previousSolution;
-          Task tempTask = actualSolution[i][j];
-          actualSolution[i][j] = actualSolution[i][k];
-          actualSolution[i][k] = tempTask;
+          Task tempTask = actualSolution[i][k];
+          actualSolution[i].deleteTask(k);
+          actualSolution[j].insertTask(j - 1, tempTask);
           actualSolution.calculateObjectiveFunction();
           result.push_back(actualSolution);
         }
       }
     }
   }
-  /*for (int i = 0; i < result.size(); i++) {
-    std::cout << "Solución: " << i;
-    for (int j = 0; j < result[i].getSize(); j++) {
-      for (int k = 0; k < result[i][j].getTasks().size(); k++) {
-        std::cout << " [" << result[i][j].getTasks()[k].getTaskID() << " ";
-      }
-    }
-    std::cout << " ]\n";
-  }*/
   return result;
 }

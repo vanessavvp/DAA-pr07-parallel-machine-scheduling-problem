@@ -11,8 +11,7 @@
 
 #include "../include/firstGreedy.h"
 
-Solution FirstGreedy::execute(Problem& problem) {
-  std::cout << "\n\ta) Trace for the greedy implementation";
+Solution FirstGreedy::execute(Problem problem) {
   Solution solution(problem.getNumberOfMachines());
   int taskDone = 0;
 
@@ -24,10 +23,6 @@ Solution FirstGreedy::execute(Problem& problem) {
     problem.setTaskExecuted(firstTaskIndex); 
     solution[i].setTCT(firstTask.getTotalTime());
     taskDone++;
-    
-    std::cout << "\nNew task: " << problem.getTasksMatrix()[0][firstTaskIndex].getTaskID() << 
-     " -> TT: " <<  problem.getTasksMatrix()[0][firstTaskIndex].getTotalTime() << " -> ";
-    std::cout << "New TCT: " << solution[i].getTCT();
   }
 
   problem.setTaskExecuted(0);
@@ -65,19 +60,7 @@ Solution FirstGreedy::execute(Problem& problem) {
     solution[bestMachine].calculateTCT();
     taskDone++;
   }
-
-  std::cout << std::endl;
-  int solutionTCT = 0;
-  for (int i = 0; i < solution.getSize(); i++) {
-    std::cout << "\n[ Machine: " << solution[i].getMachineID() << " ]" ;
-    int tasksSizes = solution[i].getTasks().size();
-    for (int j = 0; j < tasksSizes; j++) {
-      std::cout << " " << solution[i].getTasks()[j].getTaskID();
-    }
-    std::cout << " with TCT: " << solution[i].getTCT();
-    solutionTCT += solution[i].getTCT();
-  }
-  std::cout << "\n\nZ -> Total completion time using the greedy algorithm (a): " << solutionTCT << std::endl;
+  solution.calculateObjectiveFunction();
 
   return solution;
 }

@@ -23,7 +23,7 @@ class SecondGreedy : public Algorithm {
   public:
     SecondGreedy() {};
     ~SecondGreedy() {};
-    Solution execute(Problem& problem);
+    Solution execute(Problem problem);
 
 };
 

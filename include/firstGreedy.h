@@ -23,7 +23,7 @@ class FirstGreedy : public Algorithm {
   public: 
     FirstGreedy() {}
     ~FirstGreedy() {}
-    Solution execute(Problem& problem);
+    Solution execute(Problem problem);
 
 };
 

@@ -22,7 +22,7 @@ class Problem;
 class Algorithm {
   public:
     virtual ~Algorithm() = default;
-    virtual Solution execute(Problem& problem) = 0;
+    virtual Solution execute(Problem problem) = 0;
 };
 
 #endif // !ALGORITHM_H

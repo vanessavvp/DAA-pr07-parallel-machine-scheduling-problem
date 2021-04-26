@@ -25,7 +25,12 @@ Task::Task(int taskID, int executionTime, int setupTime) {
 }
 
 
-Task::~Task() {}
+Task::~Task() {
+  taskID_ = 0;
+  executionTime_ = 0;
+  setupTime_ = 0;
+  executed_ = false;
+}
 
 
 int Task::getTaskID() const {

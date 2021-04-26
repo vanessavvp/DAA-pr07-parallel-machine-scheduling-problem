@@ -20,12 +20,16 @@ void GRASP::setK(int k) {
   k_ = k;
 }
 
+int GRASP::getK() {
+  return k_;
+}
+
 bool operator<(const resultValues& a, const resultValues& b) {
   return (std::get<0>(a) < std::get<0>(b));
 }
 
 
-std::vector<resultValues> GRASP::bestKValues(std::vector<resultValues>& totalResults) {
+std::vector<resultValues> GRASP::bestKValues(std::vector<resultValues> totalResults) {
   std::vector<resultValues> organizedValues;
   std::vector<resultValues> bestValues;
   resultValues minimum;
@@ -45,8 +49,7 @@ std::vector<resultValues> GRASP::bestKValues(std::vector<resultValues>& totalRes
   return organizedValues;
 }
 
-Solution GRASP::execute(Problem& problem) {
-  std::cout << "\n\tc) Constructive GRASP";
+Solution GRASP::execute(Problem problem) {
   Solution solution(problem.getNumberOfMachines());
   int taskDone = 0;
 
@@ -58,10 +61,6 @@ Solution GRASP::execute(Problem& problem) {
     problem.setTaskExecuted(firstTaskIndex); 
     solution[i].setTCT(firstTask.getTotalTime());
     taskDone++;
-    
-    std::cout << "\nNew task: " << problem.getTasksMatrix()[0][firstTaskIndex].getTaskID() << 
-     " -> TT: " <<  problem.getTasksMatrix()[0][firstTaskIndex].getTotalTime() << " -> ";
-    std::cout << "New TCT: " << solution[i].getTCT();
   }
 
   problem.setTaskExecuted(0);
@@ -111,8 +110,9 @@ Solution GRASP::execute(Problem& problem) {
     
     taskDone++;
   }
+  solution.calculateObjectiveFunction();
 
-  std::cout << std::endl;
+  // Print the task inside the machine and the TCT, and
   int solutionTCT = 0;
   for (int i = 0; i < solution.getSize(); i++) {
     std::cout << "\n[ Machine: " << solution[i].getMachineID() << " ]" ;
@@ -123,7 +123,7 @@ Solution GRASP::execute(Problem& problem) {
     std::cout << " with TCT: " << solution[i].getTCT();
     solutionTCT += solution[i].getTCT();
   }
-  std::cout << "\n\nZ -> Total completion time using the greedy algorithm (a): " << solutionTCT << std::endl;
+  std::cout << "\nZ -> Total completion time: " << solutionTCT << std::endl;
 
   return solution;
 }

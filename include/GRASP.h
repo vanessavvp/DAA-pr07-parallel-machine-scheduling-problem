@@ -31,9 +31,10 @@ class GRASP : public Algorithm {
 
     void setK();
     void setK(int k);
-    std::vector<resultValues> bestKValues(std::vector<resultValues>& totalResults);
+    int getK();
+    std::vector<resultValues> bestKValues(std::vector<resultValues> totalResults); //
     bool sortByFirst(const resultValues& a, const resultValues& b);
-    Solution execute(Problem& problem);
+    Solution execute(Problem problem);
     friend bool operator<(const resultValues& a, const resultValues& b);
 
   private:

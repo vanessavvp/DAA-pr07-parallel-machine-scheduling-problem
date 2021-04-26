@@ -16,17 +16,29 @@ Multiboot::Multiboot(LocalSearch* localSearch, bool isAnxious) {
   localSearch_ = localSearch;
 }
 
-Solution Multiboot::execute(Problem& problem) {
+Solution Multiboot::execute(Problem problem) {
   int iterations = 0;
   Solution actualSolution(problem.getNumberOfMachines());
   Solution bestSolution(problem.getNumberOfMachines());
   actualSolution = generatedSolution_.execute(problem);
   bestSolution = actualSolution;
   do {
-    // Generar solución vecina, con local search
+    actualSolution = localSearch_->execute(actualSolution, isAnxious_); // Generar solución vecina, con local search
     // ACEPTA(SOLUCION_VECINA) Verificamos si con esa solucion el tct es menor respecto al de la mejor solucion
-      // bestsolucion = actualSolution; QUE MOVIMIENTO ME DA ESE VALOR Y SU RESULTADO
-    // Generar entorno con actualSolution, o sea GRASP
+    if (actualSolution.getTotalTCT() < bestSolution.getTotalTCT()) { 
+      bestSolution = actualSolution;
+      if (stopCriteria_ == true) {
+        iterations = 0;
+      }
+    } else {
+      if (stopCriteria_ == true) {
+        iterations++;
+      }
+    }
+    if (stopCriteria_ == false) {
+      iterations++;
+    }
+    actualSolution = generatedSolution_.execute(problem);
   } while(iterations < delimiter_);
   return bestSolution;
 }
@@ -35,6 +47,11 @@ Solution Multiboot::execute(Problem& problem) {
 void Multiboot::setK(int k) {
   generatedSolution_.setK(k);
 }
+
+int Multiboot::getK() {
+  return generatedSolution_.getK();
+}
+
 
 
 void Multiboot::setAnxiety(bool isAnxious) {
@@ -52,4 +69,14 @@ void Multiboot::setDelimiter(int delimiter) {
 
 void Multiboot::setStopCriteria(bool stopCriteria) {
   stopCriteria_ = stopCriteria;
+}
+
+void Multiboot::introduceStopCriteria() {
+  std::cout << "\nIntroduce the stop criteria for the MultiBoot algorithm:\n\t[1]Number of iterations or [0]Number of iterations without improvement: ";
+  std::cin >> stopCriteria_;
+}
+
+void Multiboot::introduceDelimiter() {
+  std::cout << "\nIntroduce the delimiter for the MultiBoot algorithm: ";
+  std::cin >> delimiter_;
 }

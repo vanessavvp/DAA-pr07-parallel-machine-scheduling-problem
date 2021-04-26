@@ -27,12 +27,14 @@ Solution::Solution(int numberOfMachines) {
 Solution::~Solution() {}
 
 void Solution::printSolution() {
-  for (int i = 0; i < solution_.size(); i++) {
-    std::cout << "Machine " << i << " : " << std::endl;
+  for (int i = 0; i < getSize(); i++) {
+    std::cout << "\n[ Machine: " << i << " ] ";
     for (int j = 0; j < solution_[i].getTasks().size(); j++) {
       std::cout << solution_[i].getTasks()[j].getTaskID()<< " ";
     }
+    std::cout << "with TCT: " << solution_[i].getTCT();
   }
+  std::cout << "\nZ -> Total completion time: " << totalTCT_ << std::endl;
 }
 
 int Solution::getTotalTCT() const {
@@ -83,7 +85,7 @@ Machine Solution::findMachineWithLeaserTCT() {
 
 Machine& Solution::operator[](int machineIndex) {
   if (machineIndex >= solution_.size()) {
-    std::cerr << "Required index greater than the number of tasks within the machine";
+    std::cerr << "\nRequired index greater than the number of tasks within the machine\n";
     exit(1);
   }
   return solution_[machineIndex];
