@@ -43,7 +43,7 @@ Solution FirstGreedy::execute(Problem problem) {
         for (int k = 1; k <= problem.getNumberOfTasks(); k++) {
           Task task = problem.getTasksMatrix()[actualTask][k];
           if (task.isExecuted() == false) {
-            possibleTCT = solution.evaluateObjectiveFunction(task, i, j);
+            possibleTCT = solution.evaluateObjectiveFunction(task, i, j + 1);
             increment = possibleTCT - solution[i].getTCT();
             if (increment < lessIncrement) {
               bestMachine = solution[i].getMachineID();
@@ -58,9 +58,9 @@ Solution FirstGreedy::execute(Problem problem) {
     problem.setTaskExecuted(bestTask.getTaskID());
     solution[bestMachine].setTaskPosition(bestTask, bestTaskPosition);
     solution[bestMachine].calculateTCT();
+    solution.calculateObjectiveFunction();
     taskDone++;
   }
-  solution.calculateObjectiveFunction();
 
   return solution;
 }

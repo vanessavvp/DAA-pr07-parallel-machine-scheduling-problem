@@ -14,10 +14,11 @@
 std::vector<Solution> IntraChange::generateNeighbours(Solution previousSolution) {
   std::vector<Solution> result;
   Solution actualSolution;
+
   for (int i = 0; i < previousSolution.getSize(); i++) {
     for (int j = 0; j < previousSolution[i].getMachineSize(); j++) {
       for (int k = 0; k < previousSolution[i].getMachineSize(); k++) {
-        if (i != k) {
+        if (j != k) {
           actualSolution = previousSolution;
           Task tempTask = actualSolution[i][j];
           actualSolution[i][j] = actualSolution[i][k];
@@ -28,14 +29,5 @@ std::vector<Solution> IntraChange::generateNeighbours(Solution previousSolution)
       }
     }
   }
-  /*for (int i = 0; i < result.size(); i++) {
-    std::cout << "Solución: " << i;
-    for (int j = 0; j < result[i].getSize(); j++) {
-      for (int k = 0; k < result[i][j].getTasks().size(); k++) {
-        std::cout << " [" << result[i][j].getTasks()[k].getTaskID() << " ";
-      }
-    }
-    std::cout << " ]\n";
-  }*/
   return result;
 }

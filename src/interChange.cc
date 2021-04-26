@@ -18,7 +18,7 @@ std::vector<Solution> InterChange::generateNeighbours(Solution previousSolution)
     for (int j = 0; j < previousSolution.getSize(); j++) {
       if (i != j) {
         for (int k = 0; k < previousSolution[i].getMachineSize(); k++) {
-          for (int l = 0; l < previousSolution[i].getMachineSize(); l++) {
+          for (int l = 0; l < previousSolution[j].getMachineSize(); l++) {
             actualSolution = previousSolution;
             Task tempTask = actualSolution[i][k];
             actualSolution[i][k] = actualSolution[j][l];

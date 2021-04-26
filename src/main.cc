@@ -21,6 +21,8 @@
 #include "../include/VNS.h"
 #include <chrono>
 
+
+void defineMultibootValues(Problem& problem, LocalSearch* localSearch);
 void executeAndMeasureAlgorithms(Problem& problem, Algorithm* algorithm);
 
 int main(int argc, char* argv[]) {
@@ -49,14 +51,12 @@ int main(int argc, char* argv[]) {
   srand(time(NULL));
   std::cout << "\n\n[ Constructive Phase of GRASP, with k = 2 ]";
   grasp->setK(2);
-  problem.setAlgorithm(grasp);
-  problem.execute();
   srand(time(NULL));
+  executeAndMeasureAlgorithms(problem, grasp);
   std::cout << "\n\n[ Constructive Phase of GRASP, with k = 3 ]";
-  grasp->setK(3);
-  problem.setAlgorithm(grasp);
-  problem.execute();
-
+  graspB->setK(3);
+  srand(time(NULL));
+  executeAndMeasureAlgorithms(problemB, graspB);
 
 
   // ------------- Second week assignment --------------------------------------------------- //
@@ -65,46 +65,48 @@ int main(int argc, char* argv[]) {
   IntraReinsertion* intraReinsertion = new IntraReinsertion;
   InterChange* interChange = new InterChange;
   InterReinsertion* interReinsertion = new InterReinsertion;
+  defineMultibootValues(problem, intraChange);
+  defineMultibootValues(problem, intraReinsertion);
+  defineMultibootValues(problem, interChange);
+  defineMultibootValues(problem, interReinsertion);
+  
+  // ------------- Third week assignment --------------------------------------------------- //
+
+}
+
+
+void defineMultibootValues(Problem& problem, LocalSearch* localSearch) {
   Multiboot* multiboot = new Multiboot;
   std::string selectedStopCriteria;
 
   multiboot->introduceDelimiter();
-  // for para las diferentes k
-  multiboot->setK(2);
-  multiboot->setStopCriteria((bool)0); // true
-  multiboot->setAnxiety((bool)0);
-  multiboot->setLocalSearch(intraChange);
-  executeAndMeasureAlgorithms(problem, multiboot);
-  /*stdfor (int stopCriteria = 0; stopCriteria < 2; stopCriteria++) {
-    multiboot->setStopCriteria((bool)stopCriteria);
-    if (stopCriteria == 0) {
-      selectedStopCriteria = " number of iterations without improvement ";
-    } else if (stopCriteria == 1) {
-      selectedStopCriteria = " number of iterations with improvement ";
+  for (int i = 2; i <= 3; i++) {
+    multiboot->setK(i);
+    for (int stopCriteria = 0; stopCriteria < 2; stopCriteria++) {
+      multiboot->setStopCriteria((bool)stopCriteria);
+      if (stopCriteria == 0) {
+        selectedStopCriteria = " number of iterations without improvement ";
+      } else if (stopCriteria == 1) {
+        selectedStopCriteria = " number of iterations with improvement ";
+      }
+      for (int isAnxious = 0; isAnxious < 2; isAnxious++) {
+        multiboot->setAnxiety((bool)isAnxious);
+        std::cout << "\n[ Multiboot, with k = " << multiboot->getK() << " -> Local Search: " ; // TODO: Añadir nombre
+        std::cout << "-> Stop criteria: " << selectedStopCriteria << " -> Anxious activated?: " << std::boolalpha << ((bool)isAnxious);
+        multiboot->setLocalSearch(localSearch);
+        executeAndMeasureAlgorithms(problem, multiboot);
+      }
     }
-    for (int isAnxious = 0; isAnxious < 2; isAnxious++) {
-      multiboot->setAnxiety((bool)isAnxious);
-      std::cout << "\n[ Multiboot, with k = " + multiboot->getK() << " -> Local Search: IntraChange ";
-      std::cout << "-> Stop criteria: " + selectedStopCriteria + " -> Anxious activated?: " << std::boolalpha << ((bool)isAnxious) << std::endl;
-      multiboot->setLocalSearch(intraChange);
-      executeAndMeasureAlgorithms(problem, multiboot);
-    }
-  }*/
-
-  
-  // ------------- Third week assignment --------------------------------------------------- //
-
-
-
-
-
+  }
 }
 
 
 void executeAndMeasureAlgorithms(Problem& problem, Algorithm* algorithm) {
   problem.setAlgorithm(algorithm);
-  // Añadir tiempo
+  auto begin = std::chrono::system_clock::now();
   problem.execute();
-  //
+  auto end = std::chrono::system_clock::now();
+  auto totalTime = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
   problem.printGeneratedSolution();
+  std::cout << "Program execution time: " << std::to_string(totalTime.count() * 1e-9) + " seconds\n";
 }

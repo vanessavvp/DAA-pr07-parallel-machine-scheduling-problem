@@ -15,10 +15,10 @@ std::vector<Solution> InterReinsertion::generateNeighbours(Solution previousSolu
   std::vector<Solution> result;
   Solution actualSolution;
   for (int i = 0; i < previousSolution.getSize(); i++) {
-    for (int j = 0; j < previousSolution[i].getMachineSize(); j++) {
+    for (int j = 0; j < previousSolution.getSize(); j++) {
       if (i != j) {
         for (int k = 0; k < previousSolution[i].getMachineSize(); k++) {
-          for (int l = 0; l < previousSolution[i].getMachineSize(); l++) {
+          for (int l = 0; l <= previousSolution[j].getMachineSize(); l++) {
             actualSolution = previousSolution;
             Task tempTask = actualSolution[i][k];
             actualSolution[i].deleteTask(k);

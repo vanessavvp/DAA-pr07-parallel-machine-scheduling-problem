@@ -57,7 +57,7 @@ void Solution::calculateObjectiveFunction() {
  **/
 int Solution::evaluateObjectiveFunction(Task task, int machine, int position) {
   std::vector<Task> tasks = solution_[machine].getTasks();
-  std::vector<Task>::iterator it = tasks.begin() + position + 1;
+  std::vector<Task>::iterator it = tasks.begin() + position;
   tasks.insert(it, task);
 
   int tct = 0;
@@ -85,7 +85,8 @@ Machine Solution::findMachineWithLeaserTCT() {
 
 Machine& Solution::operator[](int machineIndex) {
   if (machineIndex >= solution_.size()) {
-    std::cerr << "\nRequired index greater than the number of tasks within the machine\n";
+    std::cout << "MACHINE INDEX " << machineIndex << " SOLUTION.SIZE " << solution_.size();
+    std::cerr << "\nSolution ERROR: Required index greater than the number of tasks within the machine\n";
     exit(1);
   }
   return solution_[machineIndex];

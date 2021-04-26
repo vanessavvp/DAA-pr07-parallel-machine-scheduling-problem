@@ -42,9 +42,9 @@ Solution SecondGreedy::execute(Problem problem) {
       solution[machineID].setTCT(temporalTCT);
     }
 
+    solution.calculateObjectiveFunction();
     taskDone++;
   }
-  solution.calculateObjectiveFunction();
   
   return solution;
 }

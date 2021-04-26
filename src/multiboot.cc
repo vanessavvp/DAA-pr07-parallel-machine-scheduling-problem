@@ -24,7 +24,6 @@ Solution Multiboot::execute(Problem problem) {
   bestSolution = actualSolution;
   do {
     actualSolution = localSearch_->execute(actualSolution, isAnxious_); // Generar solución vecina, con local search
-    // ACEPTA(SOLUCION_VECINA) Verificamos si con esa solucion el tct es menor respecto al de la mejor solucion
     if (actualSolution.getTotalTCT() < bestSolution.getTotalTCT()) { 
       bestSolution = actualSolution;
       if (stopCriteria_ == true) {
@@ -40,6 +39,7 @@ Solution Multiboot::execute(Problem problem) {
     }
     actualSolution = generatedSolution_.execute(problem);
   } while(iterations < delimiter_);
+
   return bestSolution;
 }
 
@@ -51,7 +51,6 @@ void Multiboot::setK(int k) {
 int Multiboot::getK() {
   return generatedSolution_.getK();
 }
-
 
 
 void Multiboot::setAnxiety(bool isAnxious) {

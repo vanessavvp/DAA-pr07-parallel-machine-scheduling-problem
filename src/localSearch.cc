@@ -13,7 +13,7 @@
 
 Solution LocalSearch::execute(Solution& generatedSolution, bool isAnxious) {
   Solution actualSolution;
-  Solution bestSolution = actualSolution;
+  Solution bestSolution = generatedSolution;
   do {
     actualSolution = bestSolution;
     std::vector<Solution> neighbours = generateNeighbours(actualSolution);

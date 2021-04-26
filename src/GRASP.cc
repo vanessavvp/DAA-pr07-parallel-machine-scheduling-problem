@@ -67,7 +67,6 @@ Solution GRASP::execute(Problem problem) {
 
   // Second part 
   while (taskDone < problem.getNumberOfTasks()) {
-    int lessIncrement = INT16_MAX;
     int increment = INT16_MAX;
     int bestTaskPosition = 0;
     int bestMachine = 0;
@@ -82,48 +81,30 @@ Solution GRASP::execute(Problem problem) {
         for (int k = 1; k <= problem.getNumberOfTasks(); k++) {
           Task task = problem.getTasksMatrix()[actualTask][k];
           if (task.isExecuted() == false) {
-            possibleTCT = solution.evaluateObjectiveFunction(task, i, j);
+            possibleTCT = solution.evaluateObjectiveFunction(task, i, j + 1);
             increment = possibleTCT - solution[i].getTCT();
-            if (increment < lessIncrement) {
-              lessIncrement = increment;
-              bestMachine = solution[i].getMachineID();
-              bestTaskPosition = j + 1;
-              bestTask = task;
-              results.push_back(std::make_tuple(lessIncrement, bestMachine, bestTaskPosition, bestTask));
-            }
+            bestMachine = i;
+            bestTaskPosition = j + 1;
+            bestTask = task;
+            results.push_back(std::make_tuple(increment, bestMachine, bestTaskPosition, bestTask));
           }
         }
       }
     }
     std::sort(results.begin(), results.end());
-    std::vector<resultValues> bestKValues;
-    int i = 0;
-    while (bestKValues.size() < k_) {
-      bestKValues.push_back(results[i]);
-      i++;
+    std::vector<resultValues> bestKValues(k_);
+    for (int i = 0; i < k_; i++) {
+      bestKValues[i] = results[i];
     }
     
-    int random = std::rand() % bestKValues.size();  // Cuando se tenga el vector de 3 solamente, que se coja aleatoriamente una posicion
+    int random = (std::rand() % bestKValues.size());  // Cuando se tenga el vector de 3 solamente, que se coja aleatoriamente una posicion
     problem.setTaskExecuted(std::get<3>(bestKValues[random]).getTaskID());
     solution[std::get<1>(bestKValues[random])].setTaskPosition(std::get<3>(bestKValues[random]), std::get<2>(bestKValues[random]));
     solution[std::get<1>(bestKValues[random])].calculateTCT();
     
+    solution.calculateObjectiveFunction();
     taskDone++;
   }
-  solution.calculateObjectiveFunction();
-
-  // Print the task inside the machine and the TCT, and
-  int solutionTCT = 0;
-  for (int i = 0; i < solution.getSize(); i++) {
-    std::cout << "\n[ Machine: " << solution[i].getMachineID() << " ]" ;
-    int tasksSizes = solution[i].getTasks().size();
-    for (int j = 0; j < tasksSizes; j++) {
-      std::cout << " " << solution[i].getTasks()[j].getTaskID();
-    }
-    std::cout << " with TCT: " << solution[i].getTCT();
-    solutionTCT += solution[i].getTCT();
-  }
-  std::cout << "\nZ -> Total completion time: " << solutionTCT << std::endl;
 
   return solution;
 }
