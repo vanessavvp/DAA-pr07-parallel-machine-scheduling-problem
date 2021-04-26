@@ -13,6 +13,12 @@
 #include "../include/firstGreedy.h"
 #include "../include/secondGreedy.h"
 #include "../include/GRASP.h"
+#include "../include/intraChange.h"
+#include "../include/intraReinsertion.h"
+#include "../include/interChange.h"
+#include "../include/interReinsertion.h"
+#include "../include/multiboot.h"
+#include "../include/VNS.h"
 #include <chrono>
 
 int main(int argc, char* argv[]) {
@@ -33,4 +39,14 @@ int main(int argc, char* argv[]) {
   machineC.setAlgorithm(grasp);
   srand(time(NULL));
   machineC.execute();
+
+  IntraChange* intraChange = new IntraChange;
+  IntraReinsertion* intraReinsertion = new IntraReinsertion;
+  InterChange* interChange = new InterChange;
+  InterReinsertion* interReinsertion = new InterReinsertion;
+
+
+  Multiboot* multiboot = new Multiboot;
+  multiboot->setLocalSearch(intraChange);
+  intraChange->generateNeighbours(grasp->execute(machineC));
 }

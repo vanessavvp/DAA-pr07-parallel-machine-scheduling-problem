@@ -35,6 +35,20 @@ void Solution::printSolution() {
   }
 }
 
+int Solution::getTotalTCT() const {
+  return totalTCT_;
+}
+
+
+void Solution::calculateObjectiveFunction() {
+  totalTCT_ = 0;
+  for (int i = 0; i < solution_.size(); i++) {
+    for (int j = 0; j < solution_[i].getTasks().size(); j++) {
+      totalTCT_ += (solution_[i][j].getTotalTime() * (solution_[i].getTasks().size() - j));
+    }
+  }
+}
+
 /**
  * Calculates the objetive function when adding a new task in a specific position
  * but without changing the original parcial tct
@@ -75,10 +89,25 @@ Machine& Solution::operator[](int machineIndex) {
   return solution_[machineIndex];
 }
 
+      
 int Solution::getSize() {
   return solution_.size();
 }
 
-std::vector<Machine> Solution::getSolution() {
+std::vector<Machine> Solution::getSolution() const {
   return solution_;
+}
+
+
+bool Solution::operator ==(const Solution& solution) {
+  if ((solution.getSolution() == solution_) && (solution.getTotalTCT() == totalTCT_)) {
+    return true;
+  }
+  return false;
+}
+
+
+bool Solution::operator!=(const Solution& solution) {
+  Solution solutionCopy = solution;
+  return !(solutionCopy == *this);
 }

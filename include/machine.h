@@ -25,8 +25,9 @@ class Machine {
   Machine(int machineID);
   ~Machine();
 
-  std::vector<Task> getTasks();
+  std::vector<Task> getTasks() const;
   int getTCT();
+  int getMachineSize();
   int getMachineID();
 
   void setTask(Task newTask);
@@ -36,6 +37,8 @@ class Machine {
   void calculateTCT();
   
   int getLastTaskAddedID();
+  Task& operator[](int taskIndex);
+  bool operator==(const Machine& machine) const;
 
  private:
   std::vector<Task> tasks_;

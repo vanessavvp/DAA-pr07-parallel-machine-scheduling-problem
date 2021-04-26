@@ -1,6 +1,6 @@
-OBJECTS = main.o problem.o machine.o task.o firstGreedy.o solution.o secondGreedy.o GRASP.o
+OBJECTS = main.o problem.o machine.o task.o firstGreedy.o solution.o secondGreedy.o GRASP.o localSearch.o interChange.o interReinsertion.o intraChange.o intraReinsertion.o multiboot.o VNS.o VND.o
 CFLAGS = -c -O3 -std=c++17 -I../include
-SRC = src/main.cc src/problem.cc src/machine.cc src/task.cc src/firstGreedy.cc src/solution.cc src/secondGreedy.cc src/GRASP.cc
+SRC = src/main.cc src/problem.cc src/machine.cc src/task.cc src/firstGreedy.cc src/solution.cc src/secondGreedy.cc src/GRASP.cc src/localSearch.cc src/interChange.cc src/interReinsertion.cc src/intraChange.cc src/intraReinsertion.cc src/multiboot.cc src/VNS.cc src/VND.cc
 
 exe: $(OBJECTS)
 	g++ $(SRC) -o exe
@@ -30,6 +30,29 @@ solution.o:
 GRASP.o:
 	g++ $(CFLAGS) ./src/GRASP.cc
 
+localSearch.o:
+	g++ $(CFLAGS) ./src/localSearch.cc
+
+interChange.o:
+	g++ $(CFLAGS) ./src/interChange.cc
+
+interReinsertion.o:
+	g++ $(CFLAGS) ./src/interReinsertion.cc
+
+intraChange.o:
+	g++ $(CFLAGS) ./src/intraChange.cc
+
+intraReinsertion.o:
+	g++ $(CFLAGS) ./src/intraReinsertion.cc
+
+multiboot.o:
+	g++ $(CFLAGS) ./src/multiboot.cc
+
+VNS.o:
+	g++ $(CFLAGS) ./src/VNS.cc
+
+VND.o:
+	g++ $(CFLAGS) ./src/VND.cc
 
 .PHONY: 
 

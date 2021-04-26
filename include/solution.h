@@ -26,13 +26,17 @@ class Solution {
     ~Solution();
 
     int getSize();
-    std::vector<Machine> getSolution();
-    Machine findMachineWithLeaserTCT();
+    int getTotalTCT() const;
+    std::vector<Machine> getSolution() const;
 
+    Machine findMachineWithLeaserTCT();
+    void calculateObjectiveFunction();
     int evaluateObjectiveFunction(Task task, int machine, int position);
     void printSolution();
 
     Machine& operator[](int machineIndex);
+    bool operator ==(const Solution& solution);
+    bool operator!=(const Solution& solution);
     
   private:
     std::vector<Machine> solution_;

@@ -53,7 +53,7 @@ int Machine::getMachineID() {
   return machineID_;
 }
 
-std::vector<Task> Machine::getTasks() {
+std::vector<Task> Machine::getTasks() const {
   return tasks_;
 }
 
@@ -66,4 +66,26 @@ void Machine::calculateTCT() {
   for (int i = 0; i < tasks_.size(); i++) {
     tct_ += (tasks_[i].getTotalTime() * (tasks_.size() - i));
   }
+}
+
+
+Task& Machine::operator[](int taskIndex) {
+  if (taskIndex >= getMachineSize()) {
+    std::cerr << "The required task index is greater than the size of the machine" << std::endl;
+    exit(1);
+  }
+  return tasks_[taskIndex];
+}
+
+
+int Machine::getMachineSize() {
+  return tasks_.size();
+}
+
+
+bool Machine::operator==(const Machine& machine) const {
+  if(machine.getTasks() == tasks_) {
+    return true;
+  }
+  return false;
 }

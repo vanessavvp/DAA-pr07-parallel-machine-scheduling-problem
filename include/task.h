@@ -23,12 +23,14 @@ class Task {
   Task(int taskID, int executionTime, int setupTime);
   ~Task();
 
-  int getTaskID();
+  int getTaskID() const;
   int getSetupTime();
   int getExecutionTime();
-  int getTotalTime();
+  int getTotalTime() const;
   void setExecuted(bool executed);
-  bool isExecuted();
+  bool isExecuted() const;
+
+  bool operator==(const Task& task) const;
 
  private:
   int taskID_;

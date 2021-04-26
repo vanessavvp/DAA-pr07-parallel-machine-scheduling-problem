@@ -28,7 +28,7 @@ Task::Task(int taskID, int executionTime, int setupTime) {
 Task::~Task() {}
 
 
-int Task::getTaskID() {
+int Task::getTaskID() const {
   return taskID_;
 }
 
@@ -43,8 +43,8 @@ int Task::getSetupTime() {
 }
 
 
-int Task::getTotalTime() {
-  return (getSetupTime() + getExecutionTime());
+int Task::getTotalTime() const {
+  return (setupTime_ + executionTime_);
 }
 
 
@@ -52,6 +52,14 @@ void Task::setExecuted(bool executed) {
   executed_ = executed;
 }
 
-bool Task::isExecuted() {
+bool Task::isExecuted() const {
   return executed_;
+}
+
+
+bool Task::operator==(const Task& task) const {
+  if ((task.getTotalTime() == getTotalTime()) && (task.getTaskID() == taskID_) && (task.isExecuted() == executed_)) {
+    return true;
+  }
+  return false;
 }

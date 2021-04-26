@@ -1,6 +1,6 @@
 /**
  * PROJECT HEADER
- * @file localSearch.h
+ * @input interChange.h
  * @author: Vanessa Valentina Villalba Perez
  * Contact: alu0101265704@ull.edu.es
  * @date: 25/04/2021
@@ -9,18 +9,19 @@
  * Purpose: Parallel Machine Scheduling Problem with Dependent Setup Times
  */
 
-#ifndef LOCAL_SEARCH_H
-#define LOCAL_SEARCH_H
+#ifndef INTER_CHANGE_H
+#define INTER_CHANGE_H
 
 #include "./solution.h"
+#include "./localSearch.h"
 
 #pragma once
 
-class LocalSearch {
+class InterChange : public LocalSearch {
   public:
-    ~LocalSearch() = default;
-    Solution execute(Solution& generatedSolution, bool isAnxious);
-    virtual std::vector<Solution> generateNeighbours(Solution generatedSolution) = 0;
+    InterChange() {}
+    ~InterChange() {}
+    std::vector<Solution> generateNeighbours(Solution generatedSolution);
 };
 
-#endif // !LOCAL_SEARCH_H
+#endif // !INTER_CHANGE_H
