@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
   GRASP* graspB = new GRASP;
 
 
-  std::cout << "\n[ Greedy ]";
+  /*std::cout << "\n[ Greedy ]";
   executeAndMeasureAlgorithms(problem, firstGreedy);
   std::cout << "\n\n[ Second Greedy ]";
   executeAndMeasureAlgorithms(problem, secondGreedy);
@@ -68,9 +68,14 @@ int main(int argc, char* argv[]) {
   defineMultibootValues(problem, intraChange);
   defineMultibootValues(problem, intraReinsertion);
   defineMultibootValues(problem, interChange);
-  defineMultibootValues(problem, interReinsertion);
+  defineMultibootValues(problem, interReinsertion);*/
   
   // ------------- Third week assignment --------------------------------------------------- //
+  VNS* vns = new VNS(true);
+  vns->introduceDelimiter();
+  vns->setKGRASP(3);
+  vns->setStopCriteria(false);
+  executeAndMeasureAlgorithms(problem, vns);
 
 }
 
