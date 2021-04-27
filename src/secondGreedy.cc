@@ -30,10 +30,12 @@ Solution SecondGreedy::execute(Problem problem) {
   while (taskDone < problem.getNumberOfTasks()) {
     Machine actualMachine = solution.findMachineWithLeaserTCT();
     int machineID = actualMachine.getMachineID();  
-    int lastTask = actualMachine.getLastTaskAddedID();  // Revisar fila  
+    int lastTask = actualMachine.getLastTaskAddedID();    
     Task task = problem.findTaskWithLessTotalTime(lastTask);
     int taskIndex = task.getTaskID();
 
+    // Once the machine with leaser parcial TCT was found and the task that will have
+    //    less total time if it was added at the end of the solution calculate its TCT
     int temporalTCT = 0;
     solution[machineID].setTask(problem.getTasksMatrix()[lastTask][taskIndex]);
     problem.setTaskExecuted(taskIndex);

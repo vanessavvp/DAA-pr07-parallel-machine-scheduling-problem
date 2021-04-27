@@ -16,10 +16,12 @@ Machine::Machine() {
   tct_ = 0;
 }
 
+
 Machine::Machine(int machineID) {
   machineID_ = machineID;
   tct_ = 0;
 }
+
 
 Machine::~Machine() {}
 
@@ -44,6 +46,7 @@ void Machine::setMachineID(int newID) {
   machineID_ = newID;
 }
 
+
 int Machine::getTCT() {
   return tct_;
 }
@@ -53,13 +56,16 @@ int Machine::getMachineID() {
   return machineID_;
 }
 
+
 std::vector<Task> Machine::getTasks() const {
   return tasks_;
 }
 
+
 int Machine::getLastTaskAddedID() {
   return tasks_[tasks_.size() - 1].getTaskID();
 }
+
 
 void Machine::calculateTCT() {
   tct_ = 0;
@@ -91,6 +97,9 @@ bool Machine::operator==(const Machine& machine) const {
 }
 
 
+/** 
+ * Inserts a specific task whithin the machine by giving its position
+ **/
 void Machine::insertTask(int taskIndex, Task task) {
   std::vector<Task>::iterator it = tasks_.begin() + taskIndex + 1;
   tasks_.insert(it, task);
@@ -98,6 +107,9 @@ void Machine::insertTask(int taskIndex, Task task) {
 }
 
 
+/** 
+ * Erases a specific task whithin the machine by giving its position
+ **/
 void Machine::deleteTask(int taskIndex) {
   std::vector<Task>::iterator it = tasks_.begin() + taskIndex;
   tasks_.erase(it);

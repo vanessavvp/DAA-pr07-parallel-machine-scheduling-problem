@@ -63,4 +63,4 @@ clean:
 	rm -rf ./obj/*.o
 
 run:
-	./exe input/I40j_2m_S1_1.txt
+	./exe input/I40j_8m_S1_1.txt

@@ -15,7 +15,7 @@ Solution FirstGreedy::execute(Problem problem) {
   Solution solution(problem.getNumberOfMachines());
   int taskDone = 0;
 
-  // First part - Finds the smallests values
+  // First part - Finds the smallests values for the total time and adds the task
   for (int i = 0; i < solution.getSize(); i++) {
     Task firstTask = problem.findTaskWithLessTotalTime(0);
     int firstTaskIndex = firstTask.getTaskID();
@@ -45,6 +45,9 @@ Solution FirstGreedy::execute(Problem problem) {
           if (task.isExecuted() == false) {
             possibleTCT = solution.evaluateObjectiveFunction(task, i, j + 1);
             increment = possibleTCT - solution[i].getTCT();
+            // Finds the leaser increment that a specific task could add
+            //    and stores the values where it will be added inside the
+            //    solution
             if (increment < lessIncrement) {
               bestMachine = solution[i].getMachineID();
               lessIncrement = increment;

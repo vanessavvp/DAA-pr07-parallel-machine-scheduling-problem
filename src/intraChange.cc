@@ -19,9 +19,11 @@ std::vector<Solution> IntraChange::generateNeighbours(Solution previousSolution)
     int machineSize = previousSolution[i].getMachineSize();
     for (int j = 0; j < machineSize; j++) {
       for (int k = 0; k < machineSize; k++) {
+        // Verifies if the machines are not the same ones
         if (j != k) {
           actualSolution = previousSolution;
           Task tempTask = actualSolution[i][j];
+          // Change tasks within those positions
           actualSolution[i][j] = actualSolution[i][k];
           actualSolution[i][k] = tempTask;
           actualSolution.calculateObjectiveFunction();

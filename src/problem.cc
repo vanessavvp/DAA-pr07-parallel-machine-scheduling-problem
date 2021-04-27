@@ -44,9 +44,11 @@ int Problem::getNumberOfTasks() {
   return numberOfTasks_;
 }
 
+
 Solution Problem::getSolution() {
   return solution_;
 }
+
 
 void Problem::setAlgorithm(Algorithm* algorithm) {
   algorithm_ = algorithm;
@@ -191,54 +193,5 @@ void Problem::readFile(std::string& inputFileName) {
       tasksMatrix_[i].push_back(newTask);
     }
   }
-  
-  // Verifying correct values
-  /*std::cout << "\nNumber of tasks: " << (tasksMatrix_.size() - 1);
-  std::cout << "\nNumber of machines: " << solutionMachines_.size();
-  std::cout << "\nExecution times: ";
-  for (int i = 0; i < executionTimes_.size(); i++) {
-    std::cout << executionTimes_[i] << " ";
-  }*/
- /* std::cout << "\nSetups times: \n";
-  for (int i = 0; i < setupMatrix.size(); i++) {
-    for (int j = 0; j < setupMatrix.size(); j++) {
-      std::cout << setupMatrix[i][j] << " ";
-    }
-    std::cout << "\n";
-  }*/
-  
-  /*std::cout << "\nExecution times from tasks matrix: \n";
-  for (int i = 0; i < tasksMatrix_.size(); i++) {
-    for (int j = 0; j < tasksMatrix_.size(); j++) {
-      std::cout << tasksMatrix_[i][j].getExecutionTime() << " ";
-    }
-    std::cout << "\n";
-  }*/
-/*
-  std::cout << "\nSetup times: \n";
-  for (int i = 0; i < tasksMatrix_.size(); i++) {
-    for (int j = 0; j < tasksMatrix_.size(); j++) {
-      std::cout << tasksMatrix_[i][j].getSetupTime() << " ";
-    }
-    std::cout << "\n";
-  }
-
-  std::cout << "\nTask ID: \n";
-  for (int i = 0; i < tasksMatrix_.size(); i++) {
-    for (int j = 0; j < tasksMatrix_.size(); j++) {
-      std::cout << tasksMatrix_[i][j].getTaskID() << " ";
-    }
-    std::cout << "\n";
-  }
-
-  std::cout << "\nExecution time: \n";
-  for (int i = 0; i < tasksMatrix_.size(); i++) {
-    for (int j = 0; j < tasksMatrix_.size(); j++) {
-      std::cout << tasksMatrix_[i][j].getExecutionTime() << " ";
-    }
-    std::cout << "\n";
-  }*/
-
-
   file.close();
 }

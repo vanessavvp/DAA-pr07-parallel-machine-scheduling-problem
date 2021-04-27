@@ -47,7 +47,7 @@ Solution VND::execute(Solution& solution, bool isAnxious) {
       actualSolution = bestNeighbour;
       l_ = 0;
     } else {
-      l_++;
+      l_++; // Change within the environments
     }
   } while (l_ < environments_.size());
   return actualSolution;

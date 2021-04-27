@@ -13,11 +13,16 @@
 
 #include "../include/multiboot.h"
 
+
 Multiboot::Multiboot(LocalSearch* localSearch, bool isAnxious) {
   isAnxious_ = isAnxious;
   localSearch_ = localSearch;
 }
 
+/**
+ * Executes the multiboot algorithm, if the stopCriteria of number of iterations
+ * is equal to true, that means that it has improvement. Also, returns the bestSolution for
+ **/
 Solution Multiboot::execute(Problem problem) {
   int iterations = 0;
   Solution actualSolution(problem.getNumberOfMachines());
@@ -25,6 +30,7 @@ Solution Multiboot::execute(Problem problem) {
   actualSolution = generatedSolution_.execute(problem);
   bestSolution = actualSolution;
   do {
+    // Do the local search
     actualSolution = localSearch_->execute(actualSolution, isAnxious_); // Generar solución vecina, con local search
     if (actualSolution.getTotalTCT() < bestSolution.getTotalTCT()) { 
       bestSolution = actualSolution;
@@ -50,6 +56,7 @@ void Multiboot::setK(int k) {
   generatedSolution_.setK(k);
 }
 
+
 int Multiboot::getK() {
   return generatedSolution_.getK();
 }
@@ -64,13 +71,16 @@ void Multiboot::setLocalSearch(LocalSearch* localSearch) {
   localSearch_ = localSearch;
 }
 
+
 void Multiboot::setDelimiter(int delimiter) {
   delimiter_ = delimiter;
 }
 
+
 void Multiboot::setStopCriteria(bool stopCriteria) {
   stopCriteria_ = stopCriteria;
 }
+
 
 void Multiboot::introduceStopCriteria() {
   std::cout << "\nIntroduce the stop criteria for the MultiBoot algorithm:\n\t[1]Number of iterations or [0]Number of iterations without improvement: ";

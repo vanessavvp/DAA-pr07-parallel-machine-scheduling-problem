@@ -17,9 +17,11 @@ std::vector<Solution> IntraReinsertion::generateNeighbours(Solution previousSolu
   for (int i = 0; i < previousSolution.getSize(); i++) {
     for (int j = 0; j < previousSolution[i].getMachineSize(); j++) {
       for (int k = 0; k < previousSolution[i].getMachineSize(); k++) {
+        // Verifies if the machines are not the same ones
         if (j != k) {
           actualSolution = previousSolution;
           Task tempTask = actualSolution[i][k];
+          // Deletes the tasks that will be inserted into the other position
           actualSolution[i].deleteTask(k);
           actualSolution[i].insertTask(j - 1, tempTask);
           actualSolution.calculateObjectiveFunction();

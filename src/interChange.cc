@@ -16,11 +16,13 @@ std::vector<Solution> InterChange::generateNeighbours(Solution previousSolution)
   Solution actualSolution;
   for (int i = 0; i < previousSolution.getSize(); i++) {
     for (int j = 0; j < previousSolution.getSize(); j++) {
+      // Verifies if the machines are not the same ones
       if (i != j) {
         for (int k = 0; k < previousSolution[i].getMachineSize(); k++) {
           for (int l = 0; l < previousSolution[j].getMachineSize(); l++) {
             actualSolution = previousSolution;
             Task tempTask = actualSolution[i][k];
+            // Change tasks within those positions
             actualSolution[i][k] = actualSolution[j][l];
             actualSolution[j][l] = tempTask;
             actualSolution.calculateObjectiveFunction();

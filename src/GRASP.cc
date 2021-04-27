@@ -86,11 +86,14 @@ Solution GRASP::execute(Problem problem) {
             bestMachine = i;
             bestTaskPosition = j + 1;
             bestTask = task;
+            // Saves the best obstained results
             results.push_back(std::make_tuple(increment, bestMachine, bestTaskPosition, bestTask));
           }
         }
       }
     }
+    // Sorts the results and saves into other vector only the best k values that 
+    //    adss leaser increment to the TCT
     std::sort(results.begin(), results.end());
     std::vector<resultValues> bestKValues(k_);
     for (int i = 0; i < k_; i++) {

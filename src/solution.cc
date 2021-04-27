@@ -11,6 +11,7 @@
 
 #include "../include/solution.h"
 
+
 Solution::Solution() {
   totalTCT_ = 0;
 }
@@ -18,13 +19,16 @@ Solution::Solution() {
 Solution::Solution(int numberOfMachines) {
   totalTCT_ = 0;
   solution_.resize(numberOfMachines);
+  // Inserts new machines with the same ID, as the index inside the solution vector
   for (int i = 0; i < solution_.size(); i++) {
     Machine newMachine(i);
     solution_[i] = newMachine;
   }
 }
 
+
 Solution::~Solution() {}
+
 
 void Solution::printSolution() {
   for (int i = 0; i < getSize(); i++) {
@@ -37,11 +41,15 @@ void Solution::printSolution() {
   std::cout << "\nZ -> Total completion time: " << totalTCT_ << std::endl;
 }
 
+
 int Solution::getTotalTCT() const {
   return totalTCT_;
 }
 
 
+/**
+ * Calculates the objetive function increasing the totalTCT_
+ **/
 void Solution::calculateObjectiveFunction() {
   totalTCT_ = 0;
   for (int i = 0; i < solution_.size(); i++) {
@@ -68,6 +76,10 @@ int Solution::evaluateObjectiveFunction(Task task, int machine, int position) {
 }
 
 
+/**
+ * Finds the machine inside the solution vector that has the leaser Parcial TCT
+ * at the moment and returns it
+ **/
 Machine Solution::findMachineWithLeaserTCT() {
   int minTCT = solution_[0].getTCT();
   Machine leaserTCTMachine;
@@ -78,7 +90,6 @@ Machine Solution::findMachineWithLeaserTCT() {
       leaserTCTMachine = solution_[i];
     }
   }
-  
   return leaserTCTMachine;
 }
 
@@ -96,6 +107,7 @@ Machine& Solution::operator[](int machineIndex) {
 int Solution::getSize() {
   return solution_.size();
 }
+
 
 std::vector<Machine> Solution::getSolution() const {
   return solution_;

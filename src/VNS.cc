@@ -21,16 +21,22 @@ VNS::VNS(bool isAnxious) {
   kMax_ = 5;
 }
 
-
+/** 
+ * Find a task and a position within two random machines and deletes it
+ * from one to insert into the other machina that task, is that to say, that 
+ * it will return a solution that is far enough of the solution, for it to scape
+ **/
 Solution VNS::shaking(Solution solution, int k) {
   for (int i = 0; i < k; i++) {
     int firstMachine = 0;
     int secondMachine = 0;
     do {
+      // Gets two machine randomly
       firstMachine = (std::rand() % solution.getSize());
       secondMachine = (std::rand() % solution.getSize());
 
     } while(firstMachine == secondMachine);
+    // Gets a task and a position randomly
     int firstTask = std::rand() % solution[firstMachine].getMachineSize();
     int position = std::rand() % solution[secondMachine].getMachineSize();
     Task aux = solution[firstMachine][firstTask];
@@ -42,6 +48,9 @@ Solution VNS::shaking(Solution solution, int k) {
 }
 
 
+/** Execute the VNS algorithm that explores more deeply every environment
+ * to find the bestSolution and returns it
+ **/
 Solution VNS::execute(Problem problem) {
   int iterations = 0;
   int k;
@@ -63,9 +72,9 @@ Solution VNS::execute(Problem problem) {
       x2 = localSearch_.execute(x1, isAnxious_);
       if (x2.getTotalTCT() < x.getTotalTCT()) {
         x = x2;
-        k = 1;
+        k = 1; // Restart k
       } else {
-        k++;
+        k++; // Bigger environment
       }
     } while (k <= kMax_);
     if (x.getTotalTCT() < bestSolution.getTotalTCT()) {

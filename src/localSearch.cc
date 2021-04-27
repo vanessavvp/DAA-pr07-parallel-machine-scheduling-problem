@@ -18,6 +18,7 @@ Solution LocalSearch::execute(Solution& generatedSolution, bool isAnxious) {
     actualSolution = bestSolution;
     std::vector<Solution> neighbours = generateNeighbours(actualSolution);
     for (int i = 0; i < neighbours.size(); i++) {
+      // Verifies if the neighbor will be the new bestSolution
       if (neighbours[i].getTotalTCT() < bestSolution.getTotalTCT()) {
         bestSolution = neighbours[i];
         if (isAnxious) {
@@ -26,6 +27,6 @@ Solution LocalSearch::execute(Solution& generatedSolution, bool isAnxious) {
       }
     }
 
-  } while (bestSolution != actualSolution);
+  } while (bestSolution != actualSolution); // If there are more best Solutions continues iterating
   return bestSolution;
 }
