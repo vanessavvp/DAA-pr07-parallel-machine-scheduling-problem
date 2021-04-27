@@ -9,6 +9,8 @@
  * Purpose: Parallel Machine Scheduling Problem with Dependent Setup Times
  */
 
+#include <chrono>
+
 #include "../include/multiboot.h"
 
 Multiboot::Multiboot(LocalSearch* localSearch, bool isAnxious) {

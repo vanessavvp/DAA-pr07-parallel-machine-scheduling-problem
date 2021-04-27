@@ -12,6 +12,8 @@
 #ifndef LOCAL_SEARCH_H
 #define LOCAL_SEARCH_H
 
+#include <chrono>
+
 #include "./solution.h"
 
 #pragma once

@@ -29,11 +29,8 @@ int main(int argc, char* argv[]) {
   std::string fileName = argv[1];
   Problem problem(fileName);
   Problem problemB(fileName);
-
   std::cout << "\tThe inputfile " + fileName + " was correctly readed...\n";
-  std::cout << "\n\tSetup time Matrix\n";
-  problem.printSetupMatrix();
-
+  
 
   // ------------- First week assignment --------------------------------------------------- //
   std::cout << "\n\n\tFIRST PART - Different algorithms implemented";
@@ -57,38 +54,100 @@ int main(int argc, char* argv[]) {
   srand(time(NULL));
   executeAndMeasureAlgorithms(problemB, graspB);
 
-
-  // ------------- Second week assignment --------------------------------------------------- //
-  std::cout << "\n\n\tSECOND PART - Multiboot and different local searchs implementations";
+  std::string option;
+  std::cout << "Do you want to generate EVERY combination of the Multiboot and VNS algorithms? [y/n]: ";
+  std::cin >> option;
+  int k;
+  int iterationsLimit = 0;
+  std::string isAnxious;
+  bool anxious;
+  std::string stopCriteria;
+  bool criteria;
+  std::string algorithm;
   IntraChange* intraChange = new IntraChange;
   IntraReinsertion* intraReinsertion = new IntraReinsertion;
   InterChange* interChange = new InterChange;
   InterReinsertion* interReinsertion = new InterReinsertion;
-  defineMultibootValues(problem, intraChange, "IntraChange");
-  defineMultibootValues(problem, intraReinsertion, "IntraReinsertion");
-  defineMultibootValues(problem, interChange, "InterChange");
-  defineMultibootValues(problem, interReinsertion, "InterReinsertion");
-  
-  // ------------- Third week assignment --------------------------------------------------- //
-  std::cout << "\n\n\tTHIRD PART - VNS with VND implementation";
-  std::string selectedStopCriteria;
-  VNS* vns = new VNS();
-  vns->introduceDelimiter();
-  std::cout << "\n\n\tLOADING...\n\n";
-  for (int anxious = 0; anxious < 2; anxious++) {
-    vns->setAnxious((bool)anxious);
-    for (int stopCriteria = 0; stopCriteria < 2; stopCriteria++) {
-      vns->setStopCriteria((bool)stopCriteria);
-      if (stopCriteria == 0) {
-        selectedStopCriteria = " number of iterations without improvement ";
-      } else if (stopCriteria == 1) {
-        selectedStopCriteria = " number of iterations with improvement ";
-      }
-      for (int k = 2; k <= 3; k++) {
-        vns->setKGRASP(k);
-        std::cout << "\n\t-> VNS, with k = " << vns->getKGRASP();
-        std::cout << "\n\t-> Stop criteria: " << selectedStopCriteria << "\n\t-> Anxious aproach activated?: " << std::boolalpha << ((bool)anxious);
-        executeAndMeasureAlgorithms(problem, vns);
+
+  if (option == "n") {
+    std::cout << "Iterations limit o delimiter [20-50-100]: "; std::cin >> iterationsLimit;
+    std::cout << "K value [2-3]: "; std::cin >> k;
+    std::cout << "Anxious approach [y/n]: "; std::cin >> isAnxious;
+    if (isAnxious == "y") {
+      anxious = true;
+    } else if (isAnxious == "n") {
+      anxious = false;
+    }
+    std::cout << "Stop criteria, number of iterations with improvement [y/n]: "; std::cin >> stopCriteria;
+    if (stopCriteria == "y") {
+      criteria = true;
+    } else if (stopCriteria == "n") {
+      criteria = false;
+    }
+    std::cout << "Multiboot or VNS algorithm [m/v]: "; std::cin >> algorithm;
+    if (algorithm == "m") {
+      Multiboot* multiboot = new Multiboot;
+      multiboot->setDelimiter(iterationsLimit);
+      multiboot->setK(k);
+      multiboot->setAnxious(anxious);
+      multiboot->setStopCriteria(criteria);
+
+      std::cout << "\n\tINTRACHANGE\n";
+      multiboot->setLocalSearch(intraChange);
+      executeAndMeasureAlgorithms(problem, multiboot);
+
+      std::cout << "\n\tINTRAREINSERTION\n";
+      multiboot->setLocalSearch(intraReinsertion);
+      executeAndMeasureAlgorithms(problem, multiboot);
+
+      std::cout << "\n\tINTERCHANGE\n";
+      multiboot->setLocalSearch(interChange);
+      executeAndMeasureAlgorithms(problem, multiboot);
+
+      std::cout << "\n\tINTERREINSERTION\n";
+      multiboot->setLocalSearch(interReinsertion);
+      executeAndMeasureAlgorithms(problem, multiboot);
+    } else if (algorithm == "v") {
+      VNS* vns = new VNS();
+      vns->setDelimiter(iterationsLimit);
+      vns->setKGRASP(k);
+      vns->setAnxious(anxious);
+      vns->setStopCriteria(criteria);
+      executeAndMeasureAlgorithms(problem, vns);
+    }
+  } else if (option == "y") {
+    // ------------- Second week assignment --------------------------------------------------- //
+    std::cout << "\n\n\tSECOND PART - Multiboot and different local searchs implementations";
+    IntraChange* intraChange = new IntraChange;
+    IntraReinsertion* intraReinsertion = new IntraReinsertion;
+    InterChange* interChange = new InterChange;
+    InterReinsertion* interReinsertion = new InterReinsertion;
+    defineMultibootValues(problem, intraChange, "IntraChange");
+    defineMultibootValues(problem, intraReinsertion, "IntraReinsertion");
+    defineMultibootValues(problem, interChange, "InterChange");
+    defineMultibootValues(problem, interReinsertion, "InterReinsertion");
+
+    // ------------- Third week assignment --------------------------------------------------- //
+    std::cout << "\n\n\tTHIRD PART - VNS with VND implementation";
+    std::string selectedStopCriteria;
+    VNS* vns = new VNS();
+    vns->introduceDelimiter();
+    std::cout << "\n\n\tLOADING...\n\n";
+    for (int anxious = 0; anxious < 2; anxious++) {
+      vns->setAnxious((bool)anxious);
+      for (int stopCriteria = 0; stopCriteria < 2; stopCriteria++) {
+        vns->setStopCriteria((bool)stopCriteria);
+        if (stopCriteria == 0) {
+          selectedStopCriteria = " number of iterations without improvement ";
+        } else if (stopCriteria == 1) {
+          selectedStopCriteria = " number of iterations with improvement ";
+        }
+        for (int k = 2; k <= 3; k++) {
+          vns->setKGRASP(k);
+          std::cout << "\n\t-> VNS, with k = " << vns->getKGRASP();
+          std::cout << "\n\t-> Stop criteria: " << selectedStopCriteria << "\n\t-> Anxious aproach activated?: " << std::boolalpha << ((bool)anxious);
+          executeAndMeasureAlgorithms(problem, vns);
+        }
       }
     }
   }
