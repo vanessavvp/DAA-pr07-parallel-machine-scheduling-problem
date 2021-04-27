@@ -30,7 +30,7 @@ class Multiboot : public Algorithm {
 
     void setK(int k);
     int getK();
-    void setAnxiety(bool isAnxious);
+    void setAnxious(bool isAnxious);
     void setDelimiter(int delimiter);
     void introduceDelimiter();
     void setStopCriteria(bool stopCriteria);

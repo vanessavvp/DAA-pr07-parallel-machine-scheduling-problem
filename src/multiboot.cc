@@ -53,7 +53,7 @@ int Multiboot::getK() {
 }
 
 
-void Multiboot::setAnxiety(bool isAnxious) {
+void Multiboot::setAnxious(bool isAnxious) {
   isAnxious_ = isAnxious;
 }
 

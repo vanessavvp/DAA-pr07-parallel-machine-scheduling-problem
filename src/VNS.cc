@@ -106,7 +106,7 @@ void VNS::introduceDelimiter() {
 }
 
 
-void VNS::setAnxiety(bool isAnxious) {
+void VNS::setAnxious(bool isAnxious) {
   isAnxious_ = isAnxious;
 }
 
@@ -118,4 +118,9 @@ void VNS::setKGRASP(int kGRASP) {
 
 void VNS::setDelimiter(int delimiter) {
   delimiter_ = delimiter;
+}
+
+
+int VNS::getKGRASP() {
+  return generatedSolution_.getK();
 }

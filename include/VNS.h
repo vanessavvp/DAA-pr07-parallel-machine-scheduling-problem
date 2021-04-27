@@ -29,11 +29,12 @@ class VNS : public Algorithm {
     Solution execute(Problem problem);
 
     void setStopCriteria(bool stopCriteria);
-    void setAnxiety(bool isAnxious);
+    void setAnxious(bool isAnxious);
     void setKGRASP(int kGRASP);
     void setDelimiter(int delimiter);
     void introduceStopCriteria();
     void introduceDelimiter();
+    int getKGRASP();
     
   private:
     VND localSearch_;

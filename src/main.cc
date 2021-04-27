@@ -21,8 +21,7 @@
 #include "../include/VNS.h"
 #include <chrono>
 
-
-void defineMultibootValues(Problem& problem, LocalSearch* localSearch);
+void defineMultibootValues(Problem& problem, LocalSearch* localSearch, std::string localSearchName);
 void executeAndMeasureAlgorithms(Problem& problem, Algorithm* algorithm);
 
 int main(int argc, char* argv[]) {
@@ -37,14 +36,14 @@ int main(int argc, char* argv[]) {
 
 
   // ------------- First week assignment --------------------------------------------------- //
-  std::cout << "\n\tFIRST PART - Different algorithms implemented";
+  std::cout << "\n\n\tFIRST PART - Different algorithms implemented";
   FirstGreedy* firstGreedy = new FirstGreedy;
   SecondGreedy* secondGreedy = new SecondGreedy;
   GRASP* grasp = new GRASP;
   GRASP* graspB = new GRASP;
 
 
-  /*std::cout << "\n[ Greedy ]";
+  std::cout << "\n[ Greedy ]";
   executeAndMeasureAlgorithms(problem, firstGreedy);
   std::cout << "\n\n[ Second Greedy ]";
   executeAndMeasureAlgorithms(problem, secondGreedy);
@@ -65,28 +64,45 @@ int main(int argc, char* argv[]) {
   IntraReinsertion* intraReinsertion = new IntraReinsertion;
   InterChange* interChange = new InterChange;
   InterReinsertion* interReinsertion = new InterReinsertion;
-  defineMultibootValues(problem, intraChange);
-  defineMultibootValues(problem, intraReinsertion);
-  defineMultibootValues(problem, interChange);
-  defineMultibootValues(problem, interReinsertion);*/
+  defineMultibootValues(problem, intraChange, "IntraChange");
+  defineMultibootValues(problem, intraReinsertion, "IntraReinsertion");
+  defineMultibootValues(problem, interChange, "InterChange");
+  defineMultibootValues(problem, interReinsertion, "InterReinsertion");
   
   // ------------- Third week assignment --------------------------------------------------- //
-  VNS* vns = new VNS(true);
+  std::cout << "\n\n\tTHIRD PART - VNS with VND implementation";
+  std::string selectedStopCriteria;
+  VNS* vns = new VNS();
   vns->introduceDelimiter();
-  vns->setKGRASP(3);
-  vns->setStopCriteria(false);
-  executeAndMeasureAlgorithms(problem, vns);
-
+  std::cout << "\n\n\tLOADING...\n\n";
+  for (int anxious = 0; anxious < 2; anxious++) {
+    vns->setAnxious((bool)anxious);
+    for (int stopCriteria = 0; stopCriteria < 2; stopCriteria++) {
+      vns->setStopCriteria((bool)stopCriteria);
+      if (stopCriteria == 0) {
+        selectedStopCriteria = " number of iterations without improvement ";
+      } else if (stopCriteria == 1) {
+        selectedStopCriteria = " number of iterations with improvement ";
+      }
+      for (int k = 2; k <= 3; k++) {
+        vns->setKGRASP(k);
+        std::cout << "\n\t-> VNS, with k = " << vns->getKGRASP();
+        std::cout << "\n\t-> Stop criteria: " << selectedStopCriteria << "\n\t-> Anxious aproach activated?: " << std::boolalpha << ((bool)anxious);
+        executeAndMeasureAlgorithms(problem, vns);
+      }
+    }
+  }
 }
 
 
-void defineMultibootValues(Problem& problem, LocalSearch* localSearch) {
+void defineMultibootValues(Problem& problem, LocalSearch* localSearch, std::string localSearchName) {
   Multiboot* multiboot = new Multiboot;
   std::string selectedStopCriteria;
 
   multiboot->introduceDelimiter();
-  for (int i = 2; i <= 3; i++) {
-    multiboot->setK(i);
+  std::cout << "\n\n\tLOADING...\n\n";
+  for (int anxious = 0; anxious < 2; anxious++) {
+    multiboot->setAnxious((bool)anxious);
     for (int stopCriteria = 0; stopCriteria < 2; stopCriteria++) {
       multiboot->setStopCriteria((bool)stopCriteria);
       if (stopCriteria == 0) {
@@ -94,10 +110,10 @@ void defineMultibootValues(Problem& problem, LocalSearch* localSearch) {
       } else if (stopCriteria == 1) {
         selectedStopCriteria = " number of iterations with improvement ";
       }
-      for (int isAnxious = 0; isAnxious < 2; isAnxious++) {
-        multiboot->setAnxiety((bool)isAnxious);
-        std::cout << "\n[ Multiboot, with k = " << multiboot->getK() << " -> Local Search: " ; // TODO: Añadir nombre
-        std::cout << "-> Stop criteria: " << selectedStopCriteria << " -> Anxious activated?: " << std::boolalpha << ((bool)isAnxious);
+      for (int k = 2; k <= 3; k++) {
+        multiboot->setK(k);
+        std::cout << "\n\t-> Multiboot, with k = " << multiboot->getK() << "\n\t-> Local Search: " << localSearchName;
+        std::cout << "\n\t-> Stop criteria: " << selectedStopCriteria << "\n\t-> Anxious aproach activated?: " << std::boolalpha << ((bool)anxious);
         multiboot->setLocalSearch(localSearch);
         executeAndMeasureAlgorithms(problem, multiboot);
       }
