@@ -57,9 +57,11 @@ Solution VNS::execute(Problem problem) {
   Solution x(problem.getNumberOfMachines());
   Solution x1;
   Solution x2;
-  x = generatedSolution_.execute(problem);
+  // Initial solution
+  x = generatedSolution_.execute(problem); // GRASP
   x = improvement_.execute(x, isAnxious_);
   for (int i = 0; i < x.getSize(); i++) {
+    // Kmax will be a value within 5 or a leaser size for the machine
     if(x[i].getMachineSize() < kMax_) {
       kMax_ = x[i].getMachineSize();
     }
@@ -74,7 +76,7 @@ Solution VNS::execute(Problem problem) {
         x = x2;
         k = 1; // Restart k
       } else {
-        k++; // Bigger environment
+        k++; // Bigger environment because there are no longer better tct values
       }
     } while (k <= kMax_);
     if (x.getTotalTCT() < bestSolution.getTotalTCT()) {
